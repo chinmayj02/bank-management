@@ -22,7 +22,9 @@
 	padding: 0;
 	box-sizing: border-box;
 }
-
+.highlight{
+	background-color: #313348;
+}
 .buttonClass {
 	align-self: center;
 	font-size:15px;

@@ -42,6 +42,7 @@ $no_of_customers=$row4['count'];
     <link href="css/styles.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-mobile/1.4.5/jquery.mobile.structure.min.css" integrity="sha512-ycYlLqHTXPRocKFV8t0C5fUwTvuiv+4m5kHWTN5juUkOiGEJIqlqNtPCwhfKaFlwH+dfQdKRwhOCnI2zds/dmA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>DBMS Bank</title>
 </head>
 
 <body>
@@ -66,11 +67,11 @@ $no_of_customers=$row4['count'];
         </div>
 
         <ul class="list-unstyled">
-            <li>
+            <li class="highlight">
                 <i class="fa-solid fa-house fa-fw"></i><a href="admin_dashboard.php"> Dashboard</a>
             </li>
-            <li class="">
-                <i class="fa-solid fa-users fa-fw"></i><a href="#"> Employee Details</a>
+            <li>
+                <i class="fa-solid fa-users fa-fw"></i><a href="employee_details.php"> Employee Details</a>
             </li>
             <li>
                 <i class="fa-solid fa-users-rectangle fa-fw"></i><a href="#"> Customer Details</a>

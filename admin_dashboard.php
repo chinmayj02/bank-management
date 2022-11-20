@@ -1,99 +1,80 @@
 <?php
-	require 'includes/common.php';
-    if(!isset($_SESSION['email']))header("location:login.php");
-    if(!$_SESSION['mgr']) header("location:employee_dashboard.php");
-	$email = $_SESSION['email'];
-	$fetch = "select * from employee where emp_id = '{$_SESSION['emp_id']}'";
-	$submit = mysqli_query($conn,$fetch) or die(mysqli_error($conn));
-    $fetch1 = "select * from branch where manager_id = '{$_SESSION['emp_id']}'";
-	$submit1 = mysqli_query($conn,$fetch1) or die(mysqli_error($conn));
-	if(mysqli_num_rows($submit) == 0)
-	{
-		die("User Not Found");
-	}
-	$row = mysqli_fetch_array($submit);
-    $short_name=$row['fname']." ".$row['lname'];
-	$name=$row['fname']." ".$row['mname']." ".$row['lname'];	
-    $row1 = mysqli_fetch_array($submit1);
-    $ifsc=$row1['ifsc'];							
+require 'includes/common.php';
+if (!isset($_SESSION['email'])) header("location:login.php");
+if (!$_SESSION['mgr']) header("location:employee_dashboard.php");
+$email = $_SESSION['email'];
+$fetch = "select * from employee where emp_id = '{$_SESSION['emp_id']}'";
+$submit = mysqli_query($conn, $fetch) or die(mysqli_error($conn));
+$fetch1 = "select ifsc from branch where manager_id = '{$_SESSION['emp_id']}'";
+$submit1 = mysqli_query($conn, $fetch1) or die(mysqli_error($conn));
+if (mysqli_num_rows($submit) == 0) {
+    die("User Not Found");
+}
+$row = mysqli_fetch_array($submit);
+$short_name = $row['fname'] . " " . $row['lname'];
+$name = $row['fname'] . " " . $row['mname'] . " " . $row['lname'];
+$row1 = mysqli_fetch_array($submit1);
+$ifsc = $row1['ifsc'];
+$fetch_all_branches = "select * from employee e join (select ifsc,manager_id from branch where manager_id <> '{$_SESSION['emp_id']}') b on e.emp_id=b.manager_id order by rand() limit 6";
+$submit_list_of_managers = mysqli_query($conn, $fetch_all_branches) or die(mysqli_error($conn));
+// $row_of_managers = mysqli_fetch_array($submit_list_of_managers);
 ?>
 
 <html>
 
 <head>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
     <link href="css/styles.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
-        integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/jquery-mobile/1.4.5/jquery.mobile.structure.min.css"
-        integrity="sha512-ycYlLqHTXPRocKFV8t0C5fUwTvuiv+4m5kHWTN5juUkOiGEJIqlqNtPCwhfKaFlwH+dfQdKRwhOCnI2zds/dmA=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-mobile/1.4.5/jquery.mobile.structure.min.css" integrity="sha512-ycYlLqHTXPRocKFV8t0C5fUwTvuiv+4m5kHWTN5juUkOiGEJIqlqNtPCwhfKaFlwH+dfQdKRwhOCnI2zds/dmA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 
 <body>
-    
+
     <nav class="navbar position-sticky top-0 left-0 navbar-expand-md">
         <div class="container-fluid mx-2">
             <div class="navbar-header">
                 <i data-show="show-side-navigation1" class="show-side-btn fa-fw text-white "></i>
-                <a class="navbar-brand" href="#">DBMS<span class="main-color">Bank</span></a>
-            </div>
-            <div class="collapse navbar-collapse" id="toggle-navbar">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#"><i class="fa-solid fa-bell"></i><span>0</span></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                        </a>
-                    </li>
-                </ul>
+                <a class="navbar-brand" href="admin_dashboard.php">DBMS<span class="main-color">Bank</span></a>
             </div>
         </div>
     </nav>
 
-         <aside class="sidebar position-fixed top-40 left-0 overflow-auto h-100 float-left" id="show-side-navigation1">
-             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#show-side-navigation1"><i class=" close-aside d-md-none d-lg-none" ></i></button>
-            <div class="sidebar-header d-flex justify-content-center align-items-center px-3 py-4">
-              <div class="ms-2">
+    <aside class="sidebar position-fixed top-40 left-0 overflow-auto h-100 float-left" id="show-side-navigation1">
+        <div class="sidebar-header d-flex justify-content-center align-items-center px-3 py-4">
+            <div class="ms-2">
                 <h5 class="fs-6 mb-0">
-                  <a class="text-decoration-none" href="#"><?php echo $short_name;?></a>
+                    <a class="text-decoration-none" href="#"><?php echo $short_name; ?></a>
                 </h5>
-                <p class="mt-1 mb-0"><?php echo $email;?></p>
-              </div>
+                <p class="mt-1 mb-0"><?php echo $email; ?></p>
             </div>
-            
-            <ul class="list-unstyled">
-              <li>
+        </div>
+
+        <ul class="list-unstyled">
+            <li>
                 <i class="fa-solid fa-house fa-fw"></i><a href="#"> Dashboard</a>
-              </li>
-              <li class="">
+            </li>
+            <li class="">
                 <i class="fa-solid fa-users fa-fw"></i><a href="#"> Employee Details</a>
-              </li>
-              <li>
+            </li>
+            <li>
                 <i class="fa-solid fa-users-rectangle fa-fw"></i><a href="#"> Customer Details</a>
-              </li>
-              <li>
+            </li>
+            <li>
                 <i class="fa-solid fa-right-from-bracket fa-fw"></i><a href="logout.php"> Log Out</a>
-              </li>
-            </ul>
-          </aside>  
-       
+            </li>
+        </ul>
+    </aside>
+
 
     <section id="wrapper">
-
-        
-
         <div class="p-4">
             <div class="welcome">
                 <div class="content rounded-3 p-3">
-                    <h1 class="fs-3">Hello <?php echo $name;?></h1>
+                    <h1 class="fs-3">Hello <?php echo $name; ?></h1>
                     <!-- enter name -->
                     <p class="mb-0">Welcome to your awesome dashboard!</p>
-                    <p class="mb-0">IFSC <?php echo $ifsc;?></p>
+                    <p class="mb-0">IFSC <?php echo $ifsc; ?></p>
                 </div>
             </div>
 
@@ -157,88 +138,22 @@
 
             <section class="admins mt-4">
                 <div class="row">
-                    <div class="col-md-6">
-                        <div class="box">
-                            <!-- <h4>Admins:</h4> -->
-                            <div class="admin d-flex align-items-center rounded-2 p-3 mb-4">
-                                <div class="img">
-                                    <!-- <img class="img-fluid rounded-pill"
-                               width="75" height="75"
-                               src="https://uniim1.shutterfly.com/ng/services/mediarender/THISLIFE/021036514417/media/23148906966/small/1501685402/enhance"
-                               alt="admin"> -->
-                                </div>
-                                <div class="ms-3">
-                                    <h3 class="fs-5 mb-1">Admin 1</h3>
-                                    <p class="mb-0">Lorem ipsum dolor sit amet consectetur elit.</p>
-                                </div>
-                            </div>
-                            <div class="admin d-flex align-items-center rounded-2 p-3 mb-4">
-                                <div class="img">
-                                    <!-- <img class="img-fluid rounded-pill"
-                               width="75" height="75"
-                               src="https://uniim1.shutterfly.com/ng/services/mediarender/THISLIFE/021036514417/media/23148907137/small/1501685404/enhance"
-                               alt="admin"> -->
-                                </div>
-                                <div class="ms-3">
-                                    <h3 class="fs-5 mb-1">Admin 2</h3>
-                                    <p class="mb-0">Lorem ipsum dolor sit amet consectetur elit.</p>
-                                </div>
-                            </div>
-                            <div class="admin d-flex align-items-center rounded-2 p-3">
-                                <div class="img">
-                                    <!-- <img class="img-fluid rounded-pill"
-                               width="75" height="75"
-                               src="https://uniim1.shutterfly.com/ng/services/mediarender/THISLIFE/021036514417/media/23148907019/small/1501685403/enhance"
-                               alt="admin"> -->
-                                </div>
-                                <div class="ms-3">
-                                    <h3 class="fs-5 mb-1">Admin 3</h3>
-                                    <p class="mb-0">Lorem ipsum dolor sit amet consectetur elit.</p>
+                    <?php
+                    while ($row_of_managers = mysqli_fetch_array($submit_list_of_managers)) {
+                    ?>
+                        <div class="col-md-6">
+                            <div class="box">
+
+
+                                <div class="admin d-flex align-items-center rounded-2 p-3 mb-4">
+                                    <div class="ms-3">
+                                        <h3 class="fs-5 mb-1"><?php echo $row_of_managers['fname']; ?></h3>
+                                        <p class="mb-0">Lorem ipsum dolor sit amet consectetur elit.</p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="box">
-                            <!-- <h4>Moderators:</h4> -->
-                            <div class="admin d-flex align-items-center rounded-2 p-3 mb-4">
-                                <div class="img">
-                                    <!-- <img class="img-fluid rounded-pill"
-                               width="75" height="75"
-                               src="https://uniim1.shutterfly.com/ng/services/mediarender/THISLIFE/021036514417/media/23148907114/small/1501685404/enhance"
-                               alt="admin"> -->
-                                </div>
-                                <div class="ms-3">
-                                    <h3 class="fs-5 mb-1">Admin 4</h3>
-                                    <p class="mb-0">Lorem ipsum dolor sit amet consectetur elit.</p>
-                                </div>
-                            </div>
-                            <div class="admin d-flex align-items-center rounded-2 p-3 mb-4">
-                                <div class="img">
-                                    <!-- <img class="img-fluid rounded-pill"
-                               width="75" height="75"
-                               src="https://uniim1.shutterfly.com/ng/services/mediarender/THISLIFE/021036514417/media/23148907086/small/1501685404/enhance"
-                               alt="admin"> -->
-                                </div>
-                                <div class="ms-3">
-                                    <h3 class="fs-5 mb-1">Admin 5</h3>
-                                    <p class="mb-0">Lorem ipsum dolor sit amet consectetur elit.</p>
-                                </div>
-                            </div>
-                            <div class="admin d-flex align-items-center rounded-2 p-3">
-                                <div class="img">
-                                    <!-- <img class="img-fluid rounded-pill"
-                               width="75" height="75"
-                               src="https://uniim1.shutterfly.com/ng/services/mediarender/THISLIFE/021036514417/media/23148907008/medium/1501685726/enhance"
-                               alt="admin"> -->
-                                </div>
-                                <div class="ms-3">
-                                    <h3 class="fs-5 mb-1">Admin 6</h3>
-                                    <p class="mb-0">Lorem ipsum dolor sit amet consectetur elit.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <?php } ?>
                 </div>
             </section>
 
@@ -274,14 +189,14 @@
                     </div>
                 </div>
 
-            <section class="charts mt-4">
-                <div class="chart-container p-3">
-                    <!-- <h3 class="fs-6 mb-3">Chart title number three</h3> -->
-                    <div style="height: 300px">
-                        <canvas id="chart3" width="100%"></canvas>
+                <section class="charts mt-4">
+                    <div class="chart-container p-3">
+                        <!-- <h3 class="fs-6 mb-3">Chart title number three</h3> -->
+                        <div style="height: 300px">
+                            <canvas id="chart3" width="100%"></canvas>
+                        </div>
                     </div>
-                </div>
-            </section>
+                </section>
         </div>
     </section>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.bundle.js'></script>

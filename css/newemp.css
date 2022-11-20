@@ -15,7 +15,7 @@ nav{
 
 }
 .container{
-    margin-top: 30px;
+    margin-top: 200px;
     background-color: #fff;
     width: 95%;
     min-width: 420px;
@@ -26,8 +26,11 @@ nav{
     top:50%;
     border-radius: 10px;
     box-shadow: 20 px 30px 25px;
+    z-index: 10;
 }
-
+.navbar{
+    z-index: 100;
+}
 h1{
     text-align: center;
     font-size: 30px;

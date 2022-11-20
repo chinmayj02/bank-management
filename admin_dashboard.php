@@ -82,7 +82,6 @@ $no_of_customers=$row4['count'];
         </ul>
     </aside>
 
-
     <section id="wrapper">
         <div class="p-4">
             <div class="welcome">

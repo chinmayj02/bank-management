@@ -58,11 +58,6 @@
          <aside class="sidebar position-fixed top-40 left-0 overflow-auto h-100 float-left" id="show-side-navigation1">
              <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#show-side-navigation1"><i class=" close-aside d-md-none d-lg-none" ></i></button>
             <div class="sidebar-header d-flex justify-content-center align-items-center px-3 py-4">
-              <!-- <img
-                   class="rounded-pill img-fluid"
-                   width="65"
-                   src="#"
-                   alt="profile pic">  -->
               <div class="ms-2">
                 <h5 class="fs-6 mb-0">
                   <a class="text-decoration-none" href="#"><?php echo $short_name;?></a>
@@ -71,40 +66,18 @@
               </div>
             </div>
             
-            <ul class="categories list-unstyled">
-              <li class="has-dropdown">
+            <ul class="list-unstyled">
+              <li>
                 <i class="fa-solid fa-house fa-fw"></i><a href="#"> Dashboard</a>
-                <ul class="sidebar-dropdown list-unstyled">
-                  <li><a href="#">Lorem ipsum</a></li>
-                  <li><a href="#">ipsum dolor</a></li>
-                  <li><a href="#">dolor ipsum</a></li>
-                  <li><a href="#">amet consectetur</a></li>
-                  <li><a href="#">ipsum dolor sit</a></li>
-                </ul>
               </li>
               <li class="">
                 <i class="fa-solid fa-users fa-fw"></i><a href="#"> Employee Details</a>
               </li>
-              <li class="has-dropdown">
+              <li>
                 <i class="fa-solid fa-users-rectangle fa-fw"></i><a href="#"> Customer Details</a>
-                <ul class="sidebar-dropdown list-unstyled">
-                  <li><a href="#">Lorem ipsum</a></li>
-                  <li><a href="#">ipsum dolor</a></li>
-                  <li><a href="#">dolor ipsum</a></li>
-                  <li><a href="#">amet consectetur</a></li>
-                  <li><a href="#">ipsum dolor sit</a></li>
-                </ul>
               </li>
-             
-              <li class="has-dropdown">
-                <i class="fa-solid fa-right-from-bracket fa-fw"></i><a href="#"> Log Out</a>
-                <ul class="sidebar-dropdown list-unstyled">
-                  <li><a href="#">Lorem ipsum</a></li>
-                  <li><a href="#">ipsum dolor</a></li>
-                  <li><a href="#">dolor ipsum</a></li>
-                  <li><a href="#">amet consectetur</a></li>
-                  <li><a href="#">ipsum dolor sit</a></li>
-                </ul>
+              <li>
+                <i class="fa-solid fa-right-from-bracket fa-fw"></i><a href="logout.php"> Log Out</a>
               </li>
             </ul>
           </aside>  

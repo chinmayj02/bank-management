@@ -17,6 +17,21 @@ $row1 = mysqli_fetch_array($submit1);
 $ifsc = $row1['ifsc'];
 $fetch_all_branches = "select * from employee e join (select ifsc,manager_id from branch where manager_id <> '{$_SESSION['emp_id']}') b on e.emp_id=b.manager_id order by rand() limit 6";
 $submit_list_of_managers = mysqli_query($conn, $fetch_all_branches) or die(mysqli_error($conn));
+// number of branches
+$number_of_branches="select * from count_branches";
+$submit_number_of_branches = mysqli_query($conn, $number_of_branches) or die(mysqli_error($conn));
+$row2 = mysqli_fetch_array($submit_number_of_branches);
+$no_of_branches=$row2['count'];
+// number of employees
+$number_of_employees="select * from count_employee";
+$submit_number_of_employees = mysqli_query($conn, $number_of_employees) or die(mysqli_error($conn));
+$row3 = mysqli_fetch_array($submit_number_of_employees);
+$no_of_employees=$row3['count'];
+// number of customers
+$number_of_customers="select * from count_customer";
+$submit_number_of_customers = mysqli_query($conn, $number_of_customers) or die(mysqli_error($conn));
+$row4 = mysqli_fetch_array($submit_number_of_customers);
+$no_of_customers=$row4['count'];
 // $row_of_managers = mysqli_fetch_array($submit_list_of_managers);
 ?>
 
@@ -52,7 +67,7 @@ $submit_list_of_managers = mysqli_query($conn, $fetch_all_branches) or die(mysql
 
         <ul class="list-unstyled">
             <li>
-                <i class="fa-solid fa-house fa-fw"></i><a href="#"> Dashboard</a>
+                <i class="fa-solid fa-house fa-fw"></i><a href="admin_dashboard.php"> Dashboard</a>
             </li>
             <li class="">
                 <i class="fa-solid fa-users fa-fw"></i><a href="#"> Employee Details</a>
@@ -72,7 +87,6 @@ $submit_list_of_managers = mysqli_query($conn, $fetch_all_branches) or die(mysql
             <div class="welcome">
                 <div class="content rounded-3 p-3">
                     <h1 class="fs-3">Hello <?php echo $name; ?></h1>
-                    <!-- enter name -->
                     <p class="mb-0">Welcome to your awesome dashboard!</p>
                     <p class="mb-0">IFSC <?php echo $ifsc; ?></p>
                 </div>
@@ -82,37 +96,34 @@ $submit_list_of_managers = mysqli_query($conn, $fetch_all_branches) or die(mysql
                 <div class="row">
                     <div class="col-lg-4">
                         <div class="box d-flex rounded-2 align-items-center mb-4 mb-lg-0 p-3">
-                            <i class="uil-envelope-shield fs-2 text-center bg-primary rounded-circle"></i>
+                            <i class="uil-envelope-shield fs-2 text-center bg-primary rounded-circle"><i class="fa-solid fa-building-columns"></i></i>
                             <div class="ms-3">
                                 <div class="d-flex align-items-center">
-                                    <!-- add stats -->
-                                    <!-- <h3 class="mb-0">1,245</h3> <span class="d-block ms-2">Emails</span> -->
+                                    <h3 class="mb-0"><?php echo $no_of_branches; ?></h3> <span class="d-block ms-2">Branches</span>
                                 </div>
-                                <p class="fs-normal mb-0">Lorem ipsum dolor sit amet</p>
+                                <p class="fs-normal mb-0">All Over The World</p>
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-4">
                         <div class="box d-flex rounded-2 align-items-center mb-4 mb-lg-0 p-3">
-                            <i class="uil-file fs-2 text-center bg-danger rounded-circle"></i>
+                            <i class="uil-file fs-2 text-center bg-danger rounded-circle"><i class="fa-sharp fa-solid fa-people-group"></i></i>
                             <div class="ms-3">
                                 <div class="d-flex align-items-center">
-                                    <!-- add stats -->
-                                    <!-- <h3 class="mb-0">34</h3> <span class="d-block ms-2">Projects</span> -->
+                                    <h3 class="mb-0"><?php echo $no_of_employees; ?></h3> <span class="d-block ms-2">Employees</span>
                                 </div>
-                                <p class="fs-normal mb-0">Lorem ipsum dolor sit amet</p>
+                                <p class="fs-normal mb-0">Working Hard For The People</p>
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-4">
                         <div class="box d-flex rounded-2 align-items-center p-3">
-                            <i class="uil-users-alt fs-2 text-center bg-success rounded-circle"></i>
+                            <i class="uil-users-alt fs-2 text-center bg-success rounded-circle"><i class="fa-solid fa-user-group"></i></i>
                             <div class="ms-3">
                                 <div class="d-flex align-items-center">
-                                    <!-- add stats -->
-                                    <!-- <h3 class="mb-0">5,245</h3> <span class="d-block ms-2">Users</span> -->
+                                    <h3 class="mb-0"><?php echo $no_of_customers; ?></h3> <span class="d-block ms-2">Customers</span>
                                 </div>
-                                <p class="fs-normal mb-0">Lorem ipsum dolor sit amet</p>
+                                <p class="fs-normal mb-0">To Keep Us Motivated</p>
                             </div>
                         </div>
                     </div>
@@ -143,17 +154,24 @@ $submit_list_of_managers = mysqli_query($conn, $fetch_all_branches) or die(mysql
                     ?>
                         <div class="col-md-6">
                             <div class="box">
-
-
                                 <div class="admin d-flex align-items-center rounded-2 p-3 mb-4">
                                     <div class="ms-3">
                                         <h3 class="fs-5 mb-1"><?php echo $row_of_managers['fname']; ?></h3>
-                                        <p class="mb-0">Lorem ipsum dolor sit amet consectetur elit.</p>
+                                        <p class="mb-0">Manager at branch <?php echo $row_of_managers['ifsc']; ?></p>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     <?php } ?>
+                    <div class="col-md-12">
+                            <div class="box">
+                                <!-- <div class="admin d-flex align-items-center rounded-2 p-3 mb-4"> -->
+                                    <div align="center">
+                                    <button href="#" class="buttonClass">View All Fellow Managers</button>
+                                    </div>
+                                <!-- </div> -->
+                            </div>
+                        </div>
                 </div>
             </section>
 

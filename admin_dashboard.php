@@ -35,11 +35,11 @@
 
 <body>
     
-    <nav class="navbar top-0 left-0 navbar-expand-md">
+    <nav class="navbar position-sticky top-0 left-0 navbar-expand-md">
         <div class="container-fluid mx-2">
             <div class="navbar-header">
                 <i data-show="show-side-navigation1" class="show-side-btn fa-fw text-white "></i>
-                <a class="navbar-brand" href="#">CJ<span class="main-color">Bank</span></a>
+                <a class="navbar-brand" href="#">DBMS<span class="main-color">Bank</span></a>
             </div>
             <div class="collapse navbar-collapse" id="toggle-navbar">
                 <ul class="navbar-nav ms-auto">

@@ -1,3 +1,23 @@
+<?php
+	require 'includes/common.php';
+    if(!isset($_SESSION['email']))header("location:login.php");
+    if(!$_SESSION['mgr']) header("location:employee_dashboard.php");
+	$email = $_SESSION['email'];
+	$fetch = "select * from employee where emp_id = '{$_SESSION['emp_id']}'";
+	$submit = mysqli_query($conn,$fetch) or die(mysqli_error($conn));
+    $fetch1 = "select * from branch where manager_id = '{$_SESSION['emp_id']}'";
+	$submit1 = mysqli_query($conn,$fetch1) or die(mysqli_error($conn));
+	if(mysqli_num_rows($submit) == 0)
+	{
+		die("User Not Found");
+	}
+	$row = mysqli_fetch_array($submit);
+    $short_name=$row['fname']." ".$row['lname'];
+	$name=$row['fname']." ".$row['mname']." ".$row['lname'];	
+    $row1 = mysqli_fetch_array($submit1);
+    $ifsc=$row1['ifsc'];							
+?>
+
 <html>
 
 <head>
@@ -38,16 +58,16 @@
          <aside class="sidebar position-fixed top-40 left-0 overflow-auto h-100 float-left" id="show-side-navigation1">
              <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#show-side-navigation1"><i class=" close-aside d-md-none d-lg-none" ></i></button>
             <div class="sidebar-header d-flex justify-content-center align-items-center px-3 py-4">
-              <img
+              <!-- <img
                    class="rounded-pill img-fluid"
                    width="65"
                    src="#"
-                   alt="profile pic"> 
+                   alt="profile pic">  -->
               <div class="ms-2">
                 <h5 class="fs-6 mb-0">
-                  <a class="text-decoration-none" href="#">Admin 1</a>
+                  <a class="text-decoration-none" href="#"><?php echo $short_name;?></a>
                 </h5>
-                <p class="mt-1 mb-0">Lorem ipsum dolor sit amet consectetur.</p>
+                <p class="mt-1 mb-0"><?php echo $email;?></p>
               </div>
             </div>
             
@@ -97,9 +117,10 @@
         <div class="p-4">
             <div class="welcome">
                 <div class="content rounded-3 p-3">
-                    <h1 class="fs-3">Welcome to Dashboard</h1>
+                    <h1 class="fs-3">Hello <?php echo $name;?></h1>
                     <!-- enter name -->
-                    <p class="mb-0">Hello ~NAME, welcome to your awesome dashboard!</p>
+                    <p class="mb-0">Welcome to your awesome dashboard!</p>
+                    <p class="mb-0">IFSC <?php echo $ifsc;?></p>
                 </div>
             </div>
 

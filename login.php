@@ -1,5 +1,10 @@
 <?php
 	require 'includes/common.php';
+	if(isset($_SESSION["email"]))
+    {
+        session_unset();
+        session_destroy();
+    }
 	if (isset($_POST['submit']) && !empty($_POST['submit'])) {
 		$email = mysqli_real_escape_string($conn,$_POST['email']);
 		$password = mysqli_real_escape_string($conn,$_POST['password']);
@@ -22,7 +27,7 @@
 			$row = mysqli_fetch_array($check);
 			$insert = "insert into login_history(emp_id) values ('{$row['emp_id']}')";
 			$submit = mysqli_query($conn,$insert) or die(mysqli_error($conn));
-			$check_if_manager="select count(manager_id) as mgr from branch join employee on manager_id=emp_id";
+			$check_if_manager="select count(manager_id) as mgr from branch join employee on manager_id=emp_id where manager_id='{$row['emp_id']}'";
 			$submit1 = mysqli_query($conn,$check_if_manager) or die(mysqli_error($conn));
 			$row1 = mysqli_fetch_array($submit1);
 			if(!isset($_SESSION['email'])){

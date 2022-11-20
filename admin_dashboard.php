@@ -1,7 +1,7 @@
 <?php
 require 'includes/common.php';
 if (!isset($_SESSION['email'])) header("location:login.php");
-if (!$_SESSION['mgr']) header("location:employee_dashboard.php");
+if ($_SESSION['mgr']<1) header("location:employee_dashboard.php");
 $email = $_SESSION['email'];
 $fetch = "select * from employee where emp_id = '{$_SESSION['emp_id']}'";
 $submit = mysqli_query($conn, $fetch) or die(mysqli_error($conn));

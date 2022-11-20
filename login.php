@@ -4,14 +4,21 @@
 		$email = mysqli_real_escape_string($conn,$_POST['email']);
 		$password = mysqli_real_escape_string($conn,$_POST['password']);
 		$safe_pass = md5($password);
-		$fetch = "select e.emp_id from employee e join credentials c on e.emp_id=c.emp_id where e.email = '$email' AND c.password = '$safe_pass'";
+		$fetch = "select e.emp_id from employee e join credentials c on e.emp_id=c.emp_id where e.email = '$email'";
 		$check = mysqli_query($conn,$fetch) or die(mysqli_error($conn));
 		if(mysqli_num_rows($check) == 0)
 		{
-			die("User Not Found");
+			die("User Not Found,Please Contact Admin");
 		}
 		else
 		{
+			$fetch = "select e.emp_id from employee e join credentials c on e.emp_id=c.emp_id where e.email = '$email' and c.password='$safe_pass'";
+			$check = mysqli_query($conn,$fetch) or die(mysqli_error($conn));
+			if(mysqli_num_rows($check) == 0)
+			{
+				// die("Incorrect Password");
+				echo '<script>alert("Incorrect Password, Please try again");window.location = history.back();</script>';
+			}
 			$row = mysqli_fetch_array($check);
 			$insert = "insert into login_history(emp_id) values ('{$row['emp_id']}')";
 			$submit = mysqli_query($conn,$insert) or die(mysqli_error($conn));

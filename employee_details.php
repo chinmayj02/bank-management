@@ -1,6 +1,6 @@
 <?php
 require 'includes/common.php';
-if (!isset($_SESSION['email'])) header("location:login.php");
+if (!isset($_SESSION['email'])) header("location:index.php");
 if ($_SESSION['mgr'] < 1) header("location:employee_dashboard.php");
 $email = $_SESSION['email'];
 $fetch = "select * from employee where emp_id = '{$_SESSION['emp_id']}'";

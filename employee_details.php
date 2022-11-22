@@ -16,14 +16,16 @@ $ifsc = $row1['ifsc'];
 $fetch_employees = "select * from employee where branch_id = '{$ifsc}' and emp_id<>'{$_SESSION['emp_id']}' order by designation,fname,mname,lname";
 $submit_fetch_employees = mysqli_query($conn, $fetch_employees) or die(mysqli_error($conn));
 if (isset($_POST['submit']) && !empty($_POST['submit'])) {
-  $pass_to_check= md5($_COOKIE['pass']);
-  $fetch_pass = "select password from credentials where emp_id = '{$_SESSION['emp_id']}'";
-  $submit_pass = mysqli_query($conn, $fetch_pass) or die(mysqli_error($conn));
-  $row_pass = mysqli_fetch_array($submit_pass);
-  if($row_pass['password']==$pass_to_check){
-    header("location:profile.html");
-  }
-  else 	echo '<script>alert("Incorrect Password, Please try again");window.location = history.back();</script>';
+  if(isset($_COOKIE['pass'])){
+    $pass_to_check= md5($_COOKIE['pass']);
+    $fetch_pass = "select password from credentials where emp_id = '{$_SESSION['emp_id']}'";
+    $submit_pass = mysqli_query($conn, $fetch_pass) or die(mysqli_error($conn));
+    $row_pass = mysqli_fetch_array($submit_pass);
+    if($row_pass['password']==$pass_to_check){
+      header("location:profile.html");
+    }
+    else 	echo '<script>alert("Incorrect Password, Please try again");window.location = history.back();</script>';
+}
 
 }
 ?>
@@ -46,6 +48,7 @@ if (isset($_POST['submit']) && !empty($_POST['submit'])) {
 
     function checkPass() {
       var pass = prompt("Confirm your password:");
+      if(pass==null||pass=="") {document.cookie = "pass= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";return;}
       document.cookie = "pass="+pass;
     }
 </script>
@@ -113,14 +116,14 @@ if (isset($_POST['submit']) && !empty($_POST['submit'])) {
                     <td><?php echo $name; ?></td>
                     <td><?php echo $row['designation']; ?></td>
                     <td><?php echo $row['phone_number']; ?></td>
-                    <td><a href="#">click here</a></td>
+                    <td></td>
                   </tr>
                 <?php while ($employees = mysqli_fetch_array($submit_fetch_employees)) { ?>
                   <tr class="table-warning">
                     <td><?php echo $employees['fname']." ".$employees['mname']." ".$employees['lname']; ?></td>
                     <td><?php echo $employees['designation']; ?></td>
                     <td><?php echo $employees['phone_number']; ?></td>
-                    <td><form method="post"><input type=submit name="submit" onclick="checkPass()" >click here</input></form></td>
+                    <td><form method="post"><input type=submit name="submit" value="Click Here" onclick="checkPass()" ></input></form></td>
                   </tr>
                 <?php } ?>
 

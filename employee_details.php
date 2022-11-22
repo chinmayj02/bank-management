@@ -13,8 +13,12 @@ $submit1 = mysqli_query($conn, $fetch1) or die(mysqli_error($conn));
 $row1 = mysqli_fetch_array($submit1);
 $ifsc = $row1['ifsc'];
 // get all employees
-$fetch_employees = "select * from employee where branch_id = '{$ifsc}' and emp_id<>'{$_SESSION['emp_id']}' order by fname,mname,lname";
+$fetch_employees = "select * from employee where branch_id = '{$ifsc}' and emp_id<>'{$_SESSION['emp_id']}' order by designation,fname,mname,lname";
 $submit_fetch_employees = mysqli_query($conn, $fetch_employees) or die(mysqli_error($conn));
+if (isset($_POST['submit']) && !empty($_POST['submit'])) {
+  echo '<script>let pass=prompt("Confirm your password:");</script>';
+  $pass= echo"<scrip>pass</script>;";
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -31,6 +35,13 @@ $submit_fetch_employees = mysqli_query($conn, $fetch_employees) or die(mysqli_er
   <link href="css/styles.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-mobile/1.4.5/jquery.mobile.structure.min.css" integrity="sha512-ycYlLqHTXPRocKFV8t0C5fUwTvuiv+4m5kHWTN5juUkOiGEJIqlqNtPCwhfKaFlwH+dfQdKRwhOCnI2zds/dmA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <script>
+
+    function checkPass() {
+      var pass = prompt("Confirm your password:");
+    }
+    <?php $pass_check = 
+</script>
 </head>
 
 <body>
@@ -102,7 +113,7 @@ $submit_fetch_employees = mysqli_query($conn, $fetch_employees) or die(mysqli_er
                     <td><?php echo $employees['fname']." ".$employees['mname']." ".$employees['lname']; ?></td>
                     <td><?php echo $employees['designation']; ?></td>
                     <td><?php echo $employees['phone_number']; ?></td>
-                    <td><a href="#">click here</a></td>
+                    <td><form method="post"><button onclick="checkPass()" >click here</button></form></td>
                   </tr>
                 <?php } ?>
 

@@ -33,50 +33,124 @@ $submit_number_of_customers = mysqli_query($conn, $number_of_customers) or die(m
 $row4 = mysqli_fetch_array($submit_number_of_customers);
 $no_of_customers = $row4['count'];
 // getting timestamps for charts
-$transactions = "select time_stamp,type from transactions where ifsc='$ifsc'";
+$transactions = "select time_stamp,type,amount from transactions where ifsc='$ifsc'";
 $submit_transactions = mysqli_query($conn, $transactions) or die(mysqli_error($conn));
 // $row_of_transactions = mysqli_fetch_array($submit_transactions);
 $credit_each_month=array("01"=>0,"02"=>0,"03"=>0,"05"=>0,"06"=>0,"07"=>0,"08"=>0,"09"=>0,"10"=>0,"11"=>0,"12"=>0,"04"=>0);
 $debit_each_month=array("01"=>0,"02"=>0,"03"=>0,"05"=>0,"06"=>0,"07"=>0,"08"=>0,"09"=>0,"10"=>0,"11"=>0,"12"=>0,"04"=>0);
+$amount_each_month=array("01"=>0,"02"=>0,"03"=>0,"05"=>0,"06"=>0,"07"=>0,"08"=>0,"09"=>0,"10"=>0,"11"=>0,"12"=>0,"04"=>0);
 echo '<script>let x=1;</script>';
 while($row_of_transactions = mysqli_fetch_array($submit_transactions)){
     $type=$row_of_transactions['type'];
     if($type=="CREDIT"){
         switch(date("m",  strtotime ($row_of_transactions['time_stamp']))){
-            case '01':$credit_each_month["01"]+=1;break;
-            case '02':$credit_each_month["02"]+=1;break;
-            case '03':$credit_each_month["03"]+=1;break;
-            case '04':$credit_each_month["04"]+=1;break;
-            case '05':$credit_each_month["05"]+=1;break;
-            case '06':$credit_each_month["06"]+=1;break;
-            case '07':$credit_each_month["07"]+=1;break;
-            case '08':$credit_each_month["08"]+=1;break;
-            case '09':$credit_each_month["09"]+=1;break;
-            case '10':$credit_each_month["10"]+=1;break;
-            case '11':$credit_each_month["11"]+=1;break;
-            case '12':$credit_each_month["12"]+=1;break;
+            case '01':$credit_each_month["01"]+=1;$amount_each_month["01"]+=$row_of_transactions['amount'];break;
+            case '02':$credit_each_month["02"]+=1;$amount_each_month["02"]+=$row_of_transactions['amount'];break;
+            case '03':$credit_each_month["03"]+=1;$amount_each_month["03"]+=$row_of_transactions['amount'];break;
+            case '04':$credit_each_month["04"]+=1;$amount_each_month["04"]+=$row_of_transactions['amount'];break;
+            case '05':$credit_each_month["05"]+=1;$amount_each_month["05"]+=$row_of_transactions['amount'];break;
+            case '06':$credit_each_month["06"]+=1;$amount_each_month["06"]+=$row_of_transactions['amount'];break;
+            case '07':$credit_each_month["07"]+=1;$amount_each_month["07"]+=$row_of_transactions['amount'];break;
+            case '08':$credit_each_month["08"]+=1;$amount_each_month["08"]+=$row_of_transactions['amount'];break;
+            case '09':$credit_each_month["09"]+=1;$amount_each_month["09"]+=$row_of_transactions['amount'];break;
+            case '10':$credit_each_month["10"]+=1;$amount_each_month["10"]+=$row_of_transactions['amount'];break;
+            case '11':$credit_each_month["11"]+=1;$amount_each_month["11"]+=$row_of_transactions['amount'];break;
+            case '12':$credit_each_month["12"]+=1;$amount_each_month["12"]+=$row_of_transactions['amount'];break;
         }
     }
     else{
         switch(date("m",  strtotime ($row_of_transactions['time_stamp']))){
-            case '01':$debit_each_month["01"]+=1;break;
-            case '02':$debit_each_month["02"]+=1;break;
-            case '03':$debit_each_month["03"]+=1;break;
-            case '04':$debit_each_month["04"]+=1;break;
-            case '05':$debit_each_month["05"]+=1;break;
-            case '06':$debit_each_month["06"]+=1;break;
-            case '07':$debit_each_month["07"]+=1;break;
-            case '08':$debit_each_month["08"]+=1;break;
-            case '09':$debit_each_month["09"]+=1;break;
-            case '10':$debit_each_month["10"]+=1;break;
-            case '11':$debit_each_month["11"]+=1;break;
-            case '12':$debit_each_month["12"]+=1;break;
+            case '01':$debit_each_month["01"]+=1;$amount_each_month["01"]-=$row_of_transactions['amount'];break;
+            case '02':$debit_each_month["02"]+=1;$amount_each_month["02"]-=$row_of_transactions['amount'];break;
+            case '03':$debit_each_month["03"]+=1;$amount_each_month["03"]-=$row_of_transactions['amount'];break;
+            case '04':$debit_each_month["04"]+=1;$amount_each_month["04"]-=$row_of_transactions['amount'];break;
+            case '05':$debit_each_month["05"]+=1;$amount_each_month["05"]-=$row_of_transactions['amount'];break;
+            case '06':$debit_each_month["06"]+=1;$amount_each_month["06"]-=$row_of_transactions['amount'];break;
+            case '07':$debit_each_month["07"]+=1;$amount_each_month["07"]-=$row_of_transactions['amount'];break;
+            case '08':$debit_each_month["08"]+=1;$amount_each_month["08"]-=$row_of_transactions['amount'];break;
+            case '09':$debit_each_month["09"]+=1;$amount_each_month["09"]-=$row_of_transactions['amount'];break;
+            case '10':$debit_each_month["10"]+=1;$amount_each_month["10"]-=$row_of_transactions['amount'];break;
+            case '11':$debit_each_month["11"]+=1;$amount_each_month["11"]-=$row_of_transactions['amount'];break;
+            case '12':$debit_each_month["12"]+=1;$amount_each_month["12"]-=$row_of_transactions['amount'];break;
         }
     }
     
 }
-setcookie("credit",json_encode($credit_each_month));
-setcookie("debit",json_encode($debit_each_month));
+// setting cookie -> experimental
+$credit_jan=$credit_each_month["01"];
+setcookie("credit_jan",$credit_jan);
+$credit_feb=$credit_each_month["02"];
+setcookie("credit_feb",$credit_feb);
+$credit_mar=$credit_each_month["03"];
+setcookie("credit_mar",$credit_mar);
+$credit_apr=$credit_each_month["04"];
+setcookie("credit_apr",$credit_apr);
+$credit_may=$credit_each_month["05"];
+setcookie("credit_may",$credit_may);
+$credit_jun=$credit_each_month["06"];
+setcookie("credit_jun",$credit_jun);
+$credit_jul=$credit_each_month["07"];
+setcookie("credit_jul",$credit_jul);
+$credit_aug=$credit_each_month["08"];
+setcookie("credit_aug",$credit_aug);
+$credit_sep=$credit_each_month["09"];
+setcookie("credit_sep",$credit_sep);
+$credit_oct=$credit_each_month["10"];
+setcookie("credit_oct",$credit_oct);
+$credit_nov=$credit_each_month["11"];
+setcookie("credit_nov",$credit_nov);
+$credit_dec=$credit_each_month["12"];
+setcookie("credit_dec",$credit_dec);
+
+$debit_jan=$debit_each_month["01"];
+setcookie("debit_jan",$debit_jan);
+$debit_feb=$debit_each_month["02"];
+setcookie("debit_feb",$debit_feb);
+$debit_mar=$debit_each_month["03"];
+setcookie("debit_mar",$debit_mar);
+$debit_apr=$debit_each_month["04"];
+setcookie("debit_apr",$debit_apr);
+$debit_may=$debit_each_month["05"];
+setcookie("debit_may",$debit_may);
+$debit_jun=$debit_each_month["06"];
+setcookie("debit_jun",$debit_jun);
+$debit_jul=$debit_each_month["07"];
+setcookie("debit_jul",$debit_jul);
+$debit_aug=$debit_each_month["08"];
+setcookie("debit_aug",$debit_aug);
+$debit_sep=$debit_each_month["09"];
+setcookie("debit_sep",$debit_sep);
+$debit_oct=$debit_each_month["10"];
+setcookie("debit_oct",$debit_oct);
+$debit_nov=$debit_each_month["11"];
+setcookie("debit_nov",$debit_nov);
+$debit_dec=$debit_each_month["12"];
+setcookie("debit_dec",$debit_dec);
+
+$amount_jan=$amount_each_month["01"];
+setcookie("amount_jan",$amount_jan);
+$amount_feb=$amount_each_month["02"];
+setcookie("amount_feb",$amount_feb);
+$amount_mar=$amount_each_month["03"];
+setcookie("amount_mar",$amount_mar);
+$amount_apr=$amount_each_month["04"];
+setcookie("amount_apr",$amount_apr);
+$amount_may=$amount_each_month["05"];
+setcookie("amount_may",$amount_may);
+$amount_jun=$amount_each_month["06"];
+setcookie("amount_jun",$amount_jun);
+$amount_jul=$amount_each_month["07"];
+setcookie("amount_jul",$amount_jul);
+$amount_aug=$amount_each_month["08"];
+setcookie("amount_aug",$amount_aug);
+$amount_sep=$amount_each_month["09"];
+setcookie("amount_sep",$amount_sep);
+$amount_oct=$amount_each_month["10"];
+setcookie("amount_oct",$amount_oct);
+$amount_nov=$amount_each_month["11"];
+setcookie("amount_nov",$amount_nov);
+$amount_dec=$amount_each_month["12"];
+setcookie("amount_dec",$amount_dec);
 ?>
 
 <html>
@@ -249,15 +323,6 @@ setcookie("debit",json_encode($debit_each_month));
                         </div>
                     </div>
                 </div> -->
-
-            <section class="charts mt-4">
-                <div class="chart-container p-3">
-                    <!-- <h3 class="fs-6 mb-3">Chart title number three</h3> -->
-                    <div style="height: 300px">
-                        <canvas id="chart3" width="100%"></canvas>
-                    </div>
-                </div>
-            </section>
         </div>
     </section>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.bundle.js'></script>
@@ -265,13 +330,82 @@ setcookie("debit",json_encode($debit_each_month));
     <!-- <script src="js/main.js"></script> -->
     <script>
         'use strict'
-        <?php $data = json_decode($_COOKIE['credit'], true);
-        echo "hi";
-        ?>
-        // var credit_string=<?php //echo $data;?>;
-        // var x=JSON.parse('<?php //echo $data;?>');
+        // getting cookies -> highly experimental
+        <?php $data = $_COOKIE['credit_jan']; ?>
+        var credit_jan=<?php echo $data;?>;
+        <?php $data = $_COOKIE['credit_feb']; ?>
+        var credit_feb=<?php echo $data;?>;
+        <?php $data = $_COOKIE['credit_mar']; ?>
+        var credit_mar=<?php echo $data;?>;
+        <?php $data = $_COOKIE['credit_apr']; ?>
+        var credit_apr=<?php echo $data;?>;
+        <?php $data = $_COOKIE['credit_may']; ?>
+        var credit_may=<?php echo $data;?>;
+        <?php $data = $_COOKIE['credit_jun']; ?>
+        var credit_jun=<?php echo $data;?>;
+        <?php $data = $_COOKIE['credit_jul']; ?>
+        var credit_jul=<?php echo $data;?>;
+        <?php $data = $_COOKIE['credit_aug']; ?>
+        var credit_aug=<?php echo $data;?>;
+        <?php $data = $_COOKIE['credit_sep']; ?>
+        var credit_sep=<?php echo $data;?>;
+        <?php $data = $_COOKIE['credit_oct']; ?>
+        var credit_oct=<?php echo $data;?>;
+        <?php $data = $_COOKIE['credit_nov']; ?>
+        var credit_nov=<?php echo $data;?>;
+        <?php $data = $_COOKIE['credit_dec']; ?>
+        var credit_dec=<?php echo $data;?>;
 
-        // console.log(credit_string);
+        <?php $data = $_COOKIE['debit_jan']; ?>
+        var debit_jan=<?php echo $data;?>;
+        <?php $data = $_COOKIE['debit_feb']; ?>
+        var debit_feb=<?php echo $data;?>;
+        <?php $data = $_COOKIE['debit_mar']; ?>
+        var debit_mar=<?php echo $data;?>;
+        <?php $data = $_COOKIE['debit_apr']; ?>
+        var debit_apr=<?php echo $data;?>;
+        <?php $data = $_COOKIE['debit_may']; ?>
+        var debit_may=<?php echo $data;?>;
+        <?php $data = $_COOKIE['debit_jun']; ?>
+        var debit_jun=<?php echo $data;?>;
+        <?php $data = $_COOKIE['debit_jul']; ?>
+        var debit_jul=<?php echo $data;?>;
+        <?php $data = $_COOKIE['debit_aug']; ?>
+        var debit_aug=<?php echo $data;?>;
+        <?php $data = $_COOKIE['debit_sep']; ?>
+        var debit_sep=<?php echo $data;?>;
+        <?php $data = $_COOKIE['debit_oct']; ?>
+        var debit_oct=<?php echo $data;?>;
+        <?php $data = $_COOKIE['debit_nov']; ?>
+        var debit_nov=<?php echo $data;?>;
+        <?php $data = $_COOKIE['debit_dec']; ?>
+        var debit_dec=<?php echo $data;?>;
+
+        <?php $data = $_COOKIE['amount_jan']; ?>
+        var amount_jan=<?php echo $data;?>;
+        <?php $data = $_COOKIE['amount_feb']; ?>
+        var amount_feb=<?php echo $data;?>;
+        <?php $data = $_COOKIE['amount_mar']; ?>
+        var amount_mar=<?php echo $data;?>;
+        <?php $data = $_COOKIE['amount_apr']; ?>
+        var amount_apr=<?php echo $data;?>;
+        <?php $data = $_COOKIE['amount_may']; ?>
+        var amount_may=<?php echo $data;?>;
+        <?php $data = $_COOKIE['amount_jun']; ?>
+        var amount_jun=<?php echo $data;?>;
+        <?php $data = $_COOKIE['amount_jul']; ?>
+        var amount_jul=<?php echo $data;?>;
+        <?php $data = $_COOKIE['amount_aug']; ?>
+        var amount_aug=<?php echo $data;?>;
+        <?php $data = $_COOKIE['amount_sep']; ?>
+        var amount_sep=<?php echo $data;?>;
+        <?php $data = $_COOKIE['amount_oct']; ?>
+        var amount_oct=<?php echo $data;?>;
+        <?php $data = $_COOKIE['amount_nov']; ?>
+        var amount_nov=<?php echo $data;?>;
+        <?php $data = $_COOKIE['amount_dec']; ?>
+        var amount_dec=<?php echo $data;?>;
+
         // Global defaults
         Chart.defaults.global.animation.duration = 2000; // Animation duration
         Chart.defaults.global.title.display = false; // Remove title
@@ -308,18 +442,18 @@ setcookie("debit",json_encode($debit_each_month));
         var myChart = new Chart(document.getElementById('myChart'), {
             type: 'bar',
             data: {
-                labels: ["January", "February", "March", "April", 'May', 'June', 'August', 'September'],
+                labels: ["January", "February", "March", "April", 'May', 'June', 'August', 'September','October','November','December'],
                 datasets: [{
-                    label: "Lost",
-                    data: [45, 25, 40, 20, 60, 20, 35, 25],
+                    label: "Credit",
+                    data: [credit_jan,credit_feb,credit_mar,credit_apr, credit_may, credit_jun, credit_jul, credit_aug, credit_sep,credit_oct,credit_nov,credit_dec],
                     backgroundColor: "#0d6efd",
                     borderColor: 'transparent',
                     borderWidth: 2.5,
                     barPercentage: 0.4,
                 }, {
-                    label: "Succes",
+                    label: "Debit",
                     startAngle: 2,
-                    data: [20, 40, 20, 50, 25, 40, 25, 10],
+                    data: [debit_jan,debit_feb,debit_mar,debit_apr, debit_may, debit_jun, debit_jul, debit_aug, debit_sep,debit_oct,debit_nov,debit_dec],
                     backgroundColor: "#dc3545",
                     borderColor: 'transparent',
                     borderWidth: 2.5,
@@ -344,109 +478,37 @@ setcookie("debit",json_encode($debit_each_month));
         })
 
         // The line chart
-        // var chart = new Chart(document.getElementById('myChart2'), {
-        //     type: 'line',
-        //     data: {
-        //         labels: ["January", "February", "March", "April", 'May', 'June', 'August', 'September'],
-        //         datasets: [{
-        //             label: "My First dataset",
-        //             data: [4, 20, 5, 20, 5, 25, 9, 18],
-        //             backgroundColor: 'transparent',
-        //             borderColor: '#0d6efd',
-        //             lineTension: .4,
-        //             borderWidth: 1.5,
-        //         }, {
-        //             label: "Month",
-        //             data: [11, 25, 10, 25, 10, 30, 14, 23],
-        //             backgroundColor: 'transparent',
-        //             borderColor: '#dc3545',
-        //             lineTension: .4,
-        //             borderWidth: 1.5,
-        //         }, {
-        //             label: "Month",
-        //             data: [16, 30, 16, 30, 16, 36, 21, 35],
-        //             backgroundColor: 'transparent',
-        //             borderColor: '#f0ad4e',
-        //             lineTension: .4,
-        //             borderWidth: 1.5,
-        //         }]
-        //     },
-        //     options: {
-        //         scales: {
-        //             yAxes: [{
-        //                 gridLines: {
-        //                     drawBorder: false
-        //                 },
-        //                 ticks: {
-        //                     stepSize: 12,
-        //                 }
-        //             }],
-        //             xAxes: [{
-        //                 gridLines: {
-        //                     display: false,
-        //                 },
-        //             }]
-        //         }
-        //     }
-        // })
-
-        // var chart = document.getElementById('chart3');
-        // var myChart = new Chart(chart, {
-        //     type: 'line',
-        //     data: {
-        //         labels: ["One", "Two", "Three", "Four", "Five", 'Six', "Seven", "Eight"],
-        //         datasets: [{
-        //                 label: "Lost",
-        //                 lineTension: 0.2,
-        //                 borderColor: '#d9534f',
-        //                 borderWidth: 1.5,
-        //                 showLine: true,
-        //                 data: [3, 30, 16, 30, 16, 36, 21, 40, 20, 30],
-        //                 backgroundColor: 'transparent'
-        //             }, {
-        //                 label: "Lost",
-        //                 lineTension: 0.2,
-        //                 borderColor: '#5cb85c',
-        //                 borderWidth: 1.5,
-        //                 data: [6, 20, 5, 20, 5, 25, 9, 18, 20, 15],
-        //                 backgroundColor: 'transparent'
-        //             },
-        //             {
-        //                 label: "Lost",
-        //                 lineTension: 0.2,
-        //                 borderColor: '#f0ad4e',
-        //                 borderWidth: 1.5,
-        //                 data: [12, 20, 15, 20, 5, 35, 10, 15, 35, 25],
-        //                 backgroundColor: 'transparent'
-        //             },
-        //             {
-        //                 label: "Lost",
-        //                 lineTension: 0.2,
-        //                 borderColor: '#337ab7',
-        //                 borderWidth: 1.5,
-        //                 data: [16, 25, 10, 25, 10, 30, 14, 23, 14, 29],
-        //                 backgroundColor: 'transparent'
-        //             }
-        //         ]
-        //     },
-        //     options: {
-        //         scales: {
-        //             yAxes: [{
-        //                 gridLines: {
-        //                     drawBorder: false
-        //                 },
-        //                 ticks: {
-        //                     stepSize: 12
-        //                 }
-        //             }],
-        //             xAxes: [{
-        //                 gridLines: {
-        //                     display: false,
-        //                 },
-        //             }],
-        //         }
-        //     }
-        // })
+        var chart = new Chart(document.getElementById('myChart2'), {
+            type: 'line',
+            data: {
+                labels: ["January", "February", "March", "April", 'May', 'June', 'August', 'September','October','November','December'],
+                datasets: [{
+                    label: "Amount",
+                    data: [amount_jan,amount_feb,amount_mar,amount_apr, amount_may, amount_jun, amount_jul, amount_aug, amount_sep,amount_oct,amount_nov,amount_dec],
+                    backgroundColor: 'transparent',
+                    borderColor: '#0d6efd',
+                    lineTension: .4,
+                    borderWidth: 1.5,
+                }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        gridLines: {
+                            drawBorder: false
+                        },
+                        ticks: {
+                            stepSize: 12,
+                        }
+                    }],
+                    xAxes: [{
+                        gridLines: {
+                            display: false,
+                        },
+                    }]
+                }
+            }
+        })
     </script>
 </body>
 

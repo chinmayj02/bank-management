@@ -79,10 +79,10 @@ if (isset($_POST['submit']) && !empty($_POST['submit'])) {
         <i class="fa-solid fa-house fa-fw"></i><a href="admin_dashboard.php"> Dashboard</a>
       </li>
       <li class="highlight">
-        <i class="fa-solid fa-users fa-fw"></i><a href="#"> Employee Details</a>
+        <i class="fa-solid fa-users fa-fw"></i><a href="employee_details.php"> Employee Details</a>
       </li>
       <li>
-        <i class="fa-solid fa-users-rectangle fa-fw"></i><a href="#"> Customer Details</a>
+        <i class="fa-solid fa-users-rectangle fa-fw"></i><a href="customer_details.php"> Customer Details</a>
       </li>
       <li>
         <i class="fa-solid fa-right-from-bracket fa-fw"></i><a href="logout.php"> Log Out</a>
@@ -109,21 +109,24 @@ if (isset($_POST['submit']) && !empty($_POST['submit'])) {
                   <th scope="col">Designation</th>
                   <th scope="col">Phone No</th>
                   <th scope="col">More Details</th>
+                  <th scope="col">Remove Employee</th>
                 </tr>
               </thead>
               <tbody>
                     <tr class="table-warning">
                     <td><?php echo $name; ?></td>
                     <td><?php echo $row['designation']; ?></td>
-                    <td><?php echo $row['phone_number']; ?></td>
-                    <td></td>
+                    <td align="center"><?php echo $row['phone_number']; ?></td>
+                    <td align="center"><input class="btn btn-success" value="More" onclick="checkPass()" disabled></input></td>
+                    <td align="center"><input class="btn btn-danger" value="Remove" onclick="checkPass()" disabled></input></td>
                   </tr>
                 <?php while ($employees = mysqli_fetch_array($submit_fetch_employees)) { ?>
                   <tr class="table-warning">
                     <td><?php echo $employees['fname']." ".$employees['mname']." ".$employees['lname']; ?></td>
                     <td><?php echo $employees['designation']; ?></td>
-                    <td><?php echo $employees['phone_number']; ?></td>
-                    <td><form method="post"><input type=submit name="submit" value="Click Here" onclick="checkPass()" ></input></form></td>
+                    <td align="center"><?php echo $employees['phone_number']; ?></td>
+                    <td align="center"><form method="post"><input class="btn btn-success" type=submit name="submit" value="More" onclick="checkPass()" ></input></form></td>
+                    <td align="center"><form method="post"><input class="btn btn-danger" type=submit name="submit" value="Remove" onclick="checkPass()" ></input></form></td>
                   </tr>
                 <?php } ?>
 

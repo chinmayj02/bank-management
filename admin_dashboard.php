@@ -39,7 +39,6 @@ $submit_transactions = mysqli_query($conn, $transactions) or die(mysqli_error($c
 $credit_each_month=array("01"=>0,"02"=>0,"03"=>0,"05"=>0,"06"=>0,"07"=>0,"08"=>0,"09"=>0,"10"=>0,"11"=>0,"12"=>0,"04"=>0);
 $debit_each_month=array("01"=>0,"02"=>0,"03"=>0,"05"=>0,"06"=>0,"07"=>0,"08"=>0,"09"=>0,"10"=>0,"11"=>0,"12"=>0,"04"=>0);
 $amount_each_month=array("01"=>0,"02"=>0,"03"=>0,"05"=>0,"06"=>0,"07"=>0,"08"=>0,"09"=>0,"10"=>0,"11"=>0,"12"=>0,"04"=>0);
-echo '<script>let x=1;</script>';
 while($row_of_transactions = mysqli_fetch_array($submit_transactions)){
     $type=$row_of_transactions['type'];
     if($type=="CREDIT"){
@@ -191,7 +190,7 @@ setcookie("amount_dec",$amount_dec);
                 <i class="fa-solid fa-users fa-fw"></i><a href="employee_details.php"> Employee Details</a>
             </li>
             <li>
-                <i class="fa-solid fa-users-rectangle fa-fw"></i><a href="#"> Customer Details</a>
+                <i class="fa-solid fa-users-rectangle fa-fw"></i><a href="customer_details.php"> Customer Details</a>
             </li>
             <li>
                 <i class="fa-solid fa-right-from-bracket fa-fw"></i><a href="logout.php"> Log Out</a>

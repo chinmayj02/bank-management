@@ -1,5 +1,8 @@
 'use strict'
 
+var timestamps_list=document.cookie;
+console.log(timestamps_list);
+
 // Global defaults
 Chart.defaults.global.animation.duration = 2000; // Animation duration
 Chart.defaults.global.title.display = false; // Remove title

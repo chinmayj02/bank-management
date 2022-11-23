@@ -15,18 +15,34 @@ $ifsc = $row1['ifsc'];
 // get all employees
 $fetch_employees = "select * from employee where branch_id = '{$ifsc}' and emp_id<>'{$_SESSION['emp_id']}' order by designation,fname,mname,lname";
 $submit_fetch_employees = mysqli_query($conn, $fetch_employees) or die(mysqli_error($conn));
-if (isset($_POST['submit']) && !empty($_POST['submit'])) {
-  if(isset($_COOKIE['pass'])){
-    $pass_to_check= md5($_COOKIE['pass']);
+function passChecker($conn)
+{
+  if (isset($_COOKIE['pass'])) {
+    $pass_to_check = md5($_COOKIE['pass']);
     $fetch_pass = "select password from credentials where emp_id = '{$_SESSION['emp_id']}'";
     $submit_pass = mysqli_query($conn, $fetch_pass) or die(mysqli_error($conn));
     $row_pass = mysqli_fetch_array($submit_pass);
-    if($row_pass['password']==$pass_to_check){
-      header("location:profile.html");
-    }
-    else 	echo '<script>alert("Incorrect Password, Please try again");window.location = history.back();</script>';
+    if ($row_pass['password'] == $pass_to_check) return true;
+    else return false;
+  }
 }
-
+if (isset($_POST['submit']) && !empty($_POST['submit'])) {
+  if ($_POST['submit'] == "More") {
+    if (passChecker($conn)) header("location:profile.html");
+    echo '<script>alert("Incorrect Password, Please try again");window.location = history.back();</script>';
+  } else if ($_POST['submit'] == "Remove") {
+    if (passChecker($conn)) {
+      //  code for removal of the employee starts here
+      $to_be_deleted = (int)$_COOKIE['emp_id'];
+      $remove_employee_query = "delete from employee where emp_id = '" . $to_be_deleted . "'";
+      if (mysqli_query($conn, $remove_employee_query)) {
+        echo '<script>alert("Record deleted successfully.");window.location = history.back();</script>';
+      } else {
+        echo '<script>alert("Could not delete.Try again\nError: ".mysqli_error($conn));window.location = history.back();</script>';
+      }
+      // ends here
+    } else   echo '<script>alert("Incorrect Password, Please try again");window.location = history.back();</script>';
+  }
 }
 ?>
 <!DOCTYPE html>
@@ -45,20 +61,28 @@ if (isset($_POST['submit']) && !empty($_POST['submit'])) {
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-mobile/1.4.5/jquery.mobile.structure.min.css" integrity="sha512-ycYlLqHTXPRocKFV8t0C5fUwTvuiv+4m5kHWTN5juUkOiGEJIqlqNtPCwhfKaFlwH+dfQdKRwhOCnI2zds/dmA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <script>
-
     function checkPass() {
+      document.cookie = "pass= ; expires = Thu, 01 Jan 1970 00:00:00 GMT"
       var pass = prompt("Confirm your password:");
-      if(pass==null||pass=="") {document.cookie = "pass= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";return;}
-      document.cookie = "pass="+pass;
+      if (pass == null || pass == "" || pass == " ") {
+        return;
+      }
+      document.cookie = "pass=" + pass;
     }
-</script>
+
+    function confirmRemove() {
+      var fname = '<?php echo $_COOKIE['employee_name']; ?>';
+      var id = '<?php echo $_COOKIE['emp_id']; ?>';
+      alert("Employee " + fname + " [Employee ID:" + id + "] will be notified about the removal of his/her record from the database.");
+      checkPass();
+    }
+  </script>
 </head>
 
 <body>
   <nav class="navbar position-sticky top-0 left-0 navbar-expand-md">
     <div class="container-fluid mx-2">
       <div class="navbar-header">
-        <i data-show="show-side-navigation1" class="show-side-btn fa-fw text-white "></i>
         <a class="navbar-brand" href="admin_dashboard.php">DBMS<span class="main-color">Bank</span></a>
       </div>
     </div>
@@ -113,20 +137,30 @@ if (isset($_POST['submit']) && !empty($_POST['submit'])) {
                 </tr>
               </thead>
               <tbody>
-                    <tr class="table-warning">
-                    <td><?php echo $name; ?></td>
-                    <td><?php echo $row['designation']; ?></td>
-                    <td align="center"><?php echo $row['phone_number']; ?></td>
-                    <td align="center"><input class="btn btn-success" value="More" onclick="checkPass()" disabled></input></td>
-                    <td align="center"><input class="btn btn-danger" value="Remove" onclick="checkPass()" disabled></input></td>
-                  </tr>
+                <tr class="table-warning">
+                  <td><?php echo $name; ?></td>
+                  <td><?php echo $row['designation']; ?></td>
+                  <td align="center"><?php echo $row['phone_number']; ?></td>
+                  <td align="center"></td>
+                  <td align="center"></input></td>
+                </tr>
                 <?php while ($employees = mysqli_fetch_array($submit_fetch_employees)) { ?>
                   <tr class="table-warning">
-                    <td><?php echo $employees['fname']." ".$employees['mname']." ".$employees['lname']; ?></td>
+                    <?php
+                    $name_emp = $employees['fname'];
+                    $emp_id_to_pass = $employees['emp_id'];
+                    setcookie("employee_name", $name_emp);
+                    setcookie("emp_id", $emp_id_to_pass);
+                    ?>
+                    <td><?php echo $employees['fname'] . " " . $employees['mname'] . " " . $employees['lname']; ?></td>
                     <td><?php echo $employees['designation']; ?></td>
                     <td align="center"><?php echo $employees['phone_number']; ?></td>
-                    <td align="center"><form method="post"><input class="btn btn-success" type=submit name="submit" value="More" onclick="checkPass()" ></input></form></td>
-                    <td align="center"><form method="post"><input class="btn btn-danger" type=submit name="submit" value="Remove" onclick="checkPass()" ></input></form></td>
+                    <td align="center">
+                      <form method="post"><input class="btn btn-success" type=submit name="submit" value="More" onclick="checkPass()"></input></form>
+                    </td>
+                    <td align="center">
+                      <form method="post"><input class="btn btn-danger" type=submit name="submit" value="Remove" onclick="confirmRemove()"></input></form>
+                    </td>
                   </tr>
                 <?php } ?>
 

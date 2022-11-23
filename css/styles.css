@@ -61,26 +61,11 @@ body {
 	margin-left: 0;
 }
 
-
-
-/** --------------------------------
- -- Sidebar
--------------------------------- */
-.sidebar {
-	background-color: var(--sidebar-bg-color);
-	width: var(--sidebar-width);
-	transition: all .3s ease-in-out;
-	transform: translateX(0);
-	z-index: 9999999
+.btn{
+	z-index: 1;
 }
 
-.sidebar .close-aside {
-	position: absolute;
-	top: 7px;
-	right: 7px;
-	cursor: pointer;
-	color: #EEE;
-}
+
 
 .sidebar .sidebar-header {
 	border-bottom: 1px solid #2a2b3c
@@ -95,12 +80,6 @@ body {
 	font-size: .825rem;
 }
 
-.sidebar .search .form-control ~ i {
-	color: #2b2f3a;
-	right: 40px;
-	top: 22px;
-}
-
 .sidebar > ul > li {
 	padding: .7rem 1.75rem;
 }
@@ -109,46 +88,6 @@ body {
 	color: var(--dk-gray-400);
 	text-decoration: none;
 }
-
-/* Start numbers */
-.sidebar ul > li > a > .num {
-	line-height: 0;
-	border-radius: 3px;
-	font-size: 14px;
-	padding: 0px 5px
-}
-
-.sidebar ul > li > i {
-	font-size: 18px;
-	margin-right: .7rem;
-	color: var(--dk-gray-500);
-}
-
-.sidebar ul .opened > a:after {
-	transform: rotate(-90deg);
-}
-
-/* Start dropdown menu */
-.sidebar ul .sidebar-dropdown {
-	padding-top: 10px;
-	padding-left: 30px;
-	display: none;
-}
-.sidebar ul .sidebar-dropdown.active {
-	display: block;
-}
-
-.sidebar ul .sidebar-dropdown > li > a {
-  font-size: .85rem;
-	padding: .5rem 0;
-	display: block;
-}
-/* End dropdown menu */
-
-.show-sidebar {
-	transform: translateX(-270px);
-}
-
 @media (max-width: 767px) {
 	.sidebar ul > li {
 		padding-top: 12px;
@@ -290,6 +229,7 @@ body {
 .navbar {
 	background-color: var(--navbar-bg-color) !important;
 	border: none !important;
+	
 }
 .navbar .dropdown-menu {
 	right: auto !important;

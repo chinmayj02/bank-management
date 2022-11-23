@@ -332,78 +332,114 @@ setcookie("amount_dec",$amount_dec);
         // getting cookies -> highly experimental
         <?php $data = $_COOKIE['credit_jan']; ?>
         var credit_jan=<?php echo $data;?>;
+        // document.cookie = "credit_jan= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
         <?php $data = $_COOKIE['credit_feb']; ?>
         var credit_feb=<?php echo $data;?>;
+        // document.cookie = "credit_feb= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
         <?php $data = $_COOKIE['credit_mar']; ?>
         var credit_mar=<?php echo $data;?>;
+        // document.cookie = "credit_mar= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
         <?php $data = $_COOKIE['credit_apr']; ?>
         var credit_apr=<?php echo $data;?>;
+        // document.cookie = "credit_apr= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
         <?php $data = $_COOKIE['credit_may']; ?>
         var credit_may=<?php echo $data;?>;
+        // document.cookie = "credit_may= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
         <?php $data = $_COOKIE['credit_jun']; ?>
         var credit_jun=<?php echo $data;?>;
+        // document.cookie = "credit_jun= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
         <?php $data = $_COOKIE['credit_jul']; ?>
         var credit_jul=<?php echo $data;?>;
+        // document.cookie = "credit_jul= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
         <?php $data = $_COOKIE['credit_aug']; ?>
         var credit_aug=<?php echo $data;?>;
+        // document.cookie = "credit_aug= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
         <?php $data = $_COOKIE['credit_sep']; ?>
         var credit_sep=<?php echo $data;?>;
+        // document.cookie = "credit_sep= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
         <?php $data = $_COOKIE['credit_oct']; ?>
         var credit_oct=<?php echo $data;?>;
+        // document.cookie = "credit_oct= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
         <?php $data = $_COOKIE['credit_nov']; ?>
         var credit_nov=<?php echo $data;?>;
+        // document.cookie = "credit_nov= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
         <?php $data = $_COOKIE['credit_dec']; ?>
         var credit_dec=<?php echo $data;?>;
+        // document.cookie = "credit_dec= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
 
         <?php $data = $_COOKIE['debit_jan']; ?>
         var debit_jan=<?php echo $data;?>;
+        // document.cookie = "debit_jan= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
         <?php $data = $_COOKIE['debit_feb']; ?>
         var debit_feb=<?php echo $data;?>;
+        // document.cookie = "debit_feb= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
         <?php $data = $_COOKIE['debit_mar']; ?>
         var debit_mar=<?php echo $data;?>;
+        // document.cookie = "debit_mar= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
         <?php $data = $_COOKIE['debit_apr']; ?>
         var debit_apr=<?php echo $data;?>;
+        // document.cookie = "debit_apr= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
         <?php $data = $_COOKIE['debit_may']; ?>
         var debit_may=<?php echo $data;?>;
+        // document.cookie = "debit_may= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
         <?php $data = $_COOKIE['debit_jun']; ?>
         var debit_jun=<?php echo $data;?>;
+        // document.cookie = "debit_jun= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
         <?php $data = $_COOKIE['debit_jul']; ?>
         var debit_jul=<?php echo $data;?>;
+        // document.cookie = "debit_jul= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
         <?php $data = $_COOKIE['debit_aug']; ?>
         var debit_aug=<?php echo $data;?>;
+        // document.cookie = "debit_aug= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
         <?php $data = $_COOKIE['debit_sep']; ?>
         var debit_sep=<?php echo $data;?>;
+        // document.cookie = "debit_sep= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
         <?php $data = $_COOKIE['debit_oct']; ?>
         var debit_oct=<?php echo $data;?>;
+        // document.cookie = "debit_oct= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
         <?php $data = $_COOKIE['debit_nov']; ?>
         var debit_nov=<?php echo $data;?>;
+        // document.cookie = "debit_nov= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
         <?php $data = $_COOKIE['debit_dec']; ?>
         var debit_dec=<?php echo $data;?>;
+        // document.cookie = "debit_dec= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
 
         <?php $data = $_COOKIE['amount_jan']; ?>
         var amount_jan=<?php echo $data;?>;
+        // document.cookie = "amount_jan= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
         <?php $data = $_COOKIE['amount_feb']; ?>
         var amount_feb=<?php echo $data;?>;
+        // document.cookie = "amount_feb= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
         <?php $data = $_COOKIE['amount_mar']; ?>
         var amount_mar=<?php echo $data;?>;
+        // document.cookie = "amount_mar= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
         <?php $data = $_COOKIE['amount_apr']; ?>
         var amount_apr=<?php echo $data;?>;
+        // document.cookie = "amount_apr= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
         <?php $data = $_COOKIE['amount_may']; ?>
         var amount_may=<?php echo $data;?>;
+        // document.cookie = "amount_may= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
         <?php $data = $_COOKIE['amount_jun']; ?>
         var amount_jun=<?php echo $data;?>;
+        // document.cookie = "amount_jun= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
         <?php $data = $_COOKIE['amount_jul']; ?>
         var amount_jul=<?php echo $data;?>;
+        // document.cookie = "amount_jul= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
         <?php $data = $_COOKIE['amount_aug']; ?>
         var amount_aug=<?php echo $data;?>;
+        // document.cookie = "amount_aug= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
         <?php $data = $_COOKIE['amount_sep']; ?>
         var amount_sep=<?php echo $data;?>;
+        // document.cookie = "amount_sep= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
         <?php $data = $_COOKIE['amount_oct']; ?>
         var amount_oct=<?php echo $data;?>;
+        // document.cookie = "amount_oct= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
         <?php $data = $_COOKIE['amount_nov']; ?>
         var amount_nov=<?php echo $data;?>;
+        // document.cookie = "amount_nov= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
         <?php $data = $_COOKIE['amount_dec']; ?>
         var amount_dec=<?php echo $data;?>;
+        // document.cookie = "amount_dec= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
 
         // Global defaults
         Chart.defaults.global.animation.duration = 2000; // Animation duration

@@ -1,0 +1,39 @@
+.NAVBAR{
+    margin-top: 0;
+    padding-left: 80px;
+    height: 70px;
+    background-color: #6f6486;
+}
+.container{
+    margin-top: 20px;
+}
+.card{
+    margin-top: 20px;
+    margin-left: -70px;
+}
+#name{
+    padding-left: 40px;
+}
+.btn-danger{
+    margin-left: 100px;
+}
+
+/* MEDIA QUERIES */
+@media (max-width:865px){
+    .card{
+        margin-top: 20px;
+        margin-left: 5px;
+    }
+    #name{
+        margin-left: 150px;
+    }
+    .rounded-circle{
+        margin-left:75px ;
+    }
+    .btn-danger{
+        margin-left: 190px;
+        margin-top: 50px;
+        margin-bottom: 30px;
+    }
+   
+}

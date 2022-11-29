@@ -12,12 +12,13 @@ $fetch1 = "select ifsc from branch where manager_id = '{$_SESSION['emp_id']}'";
 $submit1 = mysqli_query($conn, $fetch1) or die(mysqli_error($conn));
 $row1 = mysqli_fetch_array($submit1);
 $ifsc = $row1['ifsc'];
+if($_SESSION['emp_id']==0){
+  $fetch = "select * from branch_customers";
+}
+else
 $fetch = "select * from branch_customers where ifsc = '{$ifsc}'";
 $submit = mysqli_query($conn, $fetch) or die(mysqli_error($conn));
 
-// get all employees
-$fetch_employees = "select * from employee where branch_id = '{$ifsc}' and emp_id<>'{$_SESSION['emp_id']}' order by designation,fname,mname,lname";
-$submit_fetch_employees = mysqli_query($conn, $fetch_employees) or die(mysqli_error($conn));
 if (isset($_POST['submit']) && !empty($_POST['submit'])) {
   if(isset($_COOKIE['pass'])){
     $pass_to_check= md5($_COOKIE['pass']);
@@ -79,7 +80,9 @@ if (isset($_POST['submit']) && !empty($_POST['submit'])) {
 
     <ul class="list-unstyled">
       <li>
-        <i class="fa-solid fa-house fa-fw"></i><a href="admin_dashboard.php"> Dashboard</a>
+        <i class="fa-solid fa-house fa-fw"></i>
+        <?php if($_SESSION['email']!="root@dbms.com"){ ?><a href="admin_dashboard.php"> Dashboard</> 
+        <?php } else ?><a href="superadmin_portal.php"> Dashboard</a>
       </li>
       <li>
         <i class="fa-solid fa-users fa-fw"></i><a href="employee_details.php"> Employee Details</a>

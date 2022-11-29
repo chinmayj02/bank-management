@@ -35,8 +35,11 @@
 				$_SESSION['emp_id'] =  $row['emp_id'];
 				$_SESSION['mgr']=$row1['mgr'];
 			}
+			if($_SESSION['emp_id']==0|| $_SESSION['email']=="root@dbms.com")header("location: superadmin_portal.php");
+			else{
 			if($_SESSION['mgr']>0)	header("location: admin_dashboard.php");
 			else header("location:employee_dashboard.php");
+			}
 		}								
 	}
 ?>

@@ -13,6 +13,10 @@ $submit1 = mysqli_query($conn, $fetch1) or die(mysqli_error($conn));
 $row1 = mysqli_fetch_array($submit1);
 $ifsc = $row1['ifsc'];
 // get all employees
+if($_SESSION['id']==0){
+  $fetch_employees = "select * from employee where emp_id<>'{$_SESSION['emp_id']}' order by designation,fname,mname,lname";
+}
+else
 $fetch_employees = "select * from employee where branch_id = '{$ifsc}' and emp_id<>'{$_SESSION['emp_id']}' order by designation,fname,mname,lname";
 $submit_fetch_employees = mysqli_query($conn, $fetch_employees) or die(mysqli_error($conn));
 function passChecker($conn)
@@ -104,8 +108,9 @@ if (isset($_POST['submit']) && !empty($_POST['submit'])) {
 
     <ul class="list-unstyled">
       <li>
-        <i class="fa-solid fa-house fa-fw"></i><a href="admin_dashboard.php"> Dashboard</a>
-      </li>
+        <i class="fa-solid fa-house fa-fw"></i>
+        <?php if($_SESSION['email']!="root@dbms.com"){ ?><a href="admin_dashboard.php"> Dashboard</a> 
+        <?php } else ?><a href="superadmin_portal.php"> Dashboard</a>      </li>
       <li class="highlight">
         <i class="fa-solid fa-users fa-fw"></i><a href="employee_details.php"> Employee Details</a>
       </li>

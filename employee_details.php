@@ -22,26 +22,30 @@ function passChecker($conn)
     $fetch_pass = "select password from credentials where emp_id = '{$_SESSION['emp_id']}'";
     $submit_pass = mysqli_query($conn, $fetch_pass) or die(mysqli_error($conn));
     $row_pass = mysqli_fetch_array($submit_pass);
-    if ($row_pass['password'] == $pass_to_check) return true;
-    else return false;
+    if ($row_pass['password'] == $pass_to_check) return 1;
+    else if(!isset($_COOKIE['pass']))return 0;
+    else return -1;
   }
 }
 if (isset($_POST['submit']) && !empty($_POST['submit'])) {
   if ($_POST['submit'] == "More") {
-    if (passChecker($conn)) header("location:profile.html");
-    echo '<script>alert("Incorrect Password, Please try again");window.location = history.back();</script>';
-  } else if ($_POST['submit'] == "Remove") {
-    if (passChecker($conn)) {
+    if (passChecker($conn)==1) header("location:profile.html");
+    else if(passChecker($conn)==-1) echo '<script>alert("Incorrect Password, Please try again");window.location = history.back();</script>';
+    else echo '<script>window.location = history.back();</script>';
+  } 
+  else if ($_POST['submit'] == "Remove") {
+    if (passChecker($conn)==1){
       //  code for removal of the employee starts here
-      $to_be_deleted = (int)$_COOKIE['emp_id'];
+      $to_be_deleted = $_COOKIE['emp_id'];
+      header("location:check.php");
       $remove_employee_query = "delete from employee where emp_id = '" . $to_be_deleted . "'";
-      if (mysqli_query($conn, $remove_employee_query)) {
-        echo '<script>alert("Record deleted successfully.");window.location = history.back();</script>';
-      } else {
-        echo '<script>alert("Could not delete.Try again\nError: ".mysqli_error($conn));window.location = history.back();</script>';
-      }
+      if (mysqli_query($conn, $remove_employee_query)) echo '<script>alert("Record deleted successfully.");window.location = history.back();</script>';
+      else echo '<script>alert("Could not delete.Try again\nError: ".mysqli_error($conn));window.location = history.back();</script>';
       // ends here
-    } else   echo '<script>alert("Incorrect Password, Please try again");window.location = history.back();</script>';
+    } 
+    else if(passChecker($conn)==-1) echo '<script>alert("Incorrect Password, Please try again");window.location = history.back();</script>';
+    else echo '<script>window.location = history.back();</script>';
+
   }
 }
 ?>
@@ -51,7 +55,7 @@ if (isset($_POST['submit']) && !empty($_POST['submit'])) {
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
   <title>Employee Details|DBMS Bank</title>
   <!-- Bootsrtap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" />
@@ -65,15 +69,15 @@ if (isset($_POST['submit']) && !empty($_POST['submit'])) {
       document.cookie = "pass= ; expires = Thu, 01 Jan 1970 00:00:00 GMT"
       var pass = prompt("Confirm your password:");
       if (pass == null || pass == "" || pass == " ") {
-        return;
+        return; 
       }
       document.cookie = "pass=" + pass;
     }
 
-    function confirmRemove() {
-      var fname = '<?php echo $_COOKIE['employee_name']; ?>';
-      var id = '<?php echo $_COOKIE['emp_id']; ?>';
-      alert("Employee " + fname + " [Employee ID:" + id + "] will be notified about the removal of his/her record from the database.");
+    function confirmRemove(name,id) {
+      alert("Employee " + name + " [Employee ID:" + id + "] will be notified about the removal of his/her record from the database.");
+      document.cookie="name="+ name;
+      documen.cookie="id="+id;
       checkPass();
     }
   </script>
@@ -146,12 +150,6 @@ if (isset($_POST['submit']) && !empty($_POST['submit'])) {
                 </tr>
                 <?php while ($employees = mysqli_fetch_array($submit_fetch_employees)) { ?>
                   <tr class="table-warning">
-                    <?php
-                    $name_emp = $employees['fname'];
-                    $emp_id_to_pass = $employees['emp_id'];
-                    setcookie("employee_name", $name_emp);
-                    setcookie("emp_id", $emp_id_to_pass);
-                    ?>
                     <td><?php echo $employees['fname'] . " " . $employees['mname'] . " " . $employees['lname']; ?></td>
                     <td><?php echo $employees['designation']; ?></td>
                     <td align="center"><?php echo $employees['phone_number']; ?></td>
@@ -159,7 +157,12 @@ if (isset($_POST['submit']) && !empty($_POST['submit'])) {
                       <form method="post"><input class="btn btn-success" type=submit name="submit" value="More" onclick="checkPass()"></input></form>
                     </td>
                     <td align="center">
-                      <form method="post"><input class="btn btn-danger" type=submit name="submit" value="Remove" onclick="confirmRemove()"></input></form>
+                    <script>
+                        var id=<?php echo  $employees['emp_id'];?>;
+                        var name= <?php $employees['fname']; ?>;
+                        <?php echo  "<script>document.write(id);</script>";?>
+                      </script>
+                       <form method="post"><input class="btn btn-danger" type=submit name="submit" value="Remove" onclick='confirmRemove(name,id)'></input></form>
                     </td>
                   </tr>
                 <?php } ?>

@@ -129,8 +129,9 @@ if (isset($_POST['submit']) && !empty($_POST['submit'])) {
                     <td><?php echo $row2['fname']." ".$row2['mname']." ".$row2['lname']; ?></td>
                     <td><?php echo $row2['phone_number']; ?></td>
                     <td><?php echo $row['acc_no']; ?></td>
-                    <td><form method="post"><input type=submit name="submit" value="Click Here" onclick="checkPass()" ></input></form></td>
-                  </tr>
+                    <td align="center">
+                      <form method="post"><input class="btn btn-success" type=submit name="submit" value="More" onclick="checkPass()"></input></form>
+                    </td>                  </tr>
                 <?php } ?>
 
               </tbody>

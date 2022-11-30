@@ -33,14 +33,14 @@ function passChecker($conn)
 }
 if (isset($_POST['submit']) && !empty($_POST['submit'])) {
   if ($_POST['submit'] == "More") {
-    if (passChecker($conn)==1) header("location:profile.html");
+    if (passChecker($conn)==1) header("location:profile.php");
     else if(passChecker($conn)==-1) echo '<script>alert("Incorrect Password, Please try again");window.location = history.back();</script>';
     else echo '<script>window.location = history.back();</script>';
   } 
   else if ($_POST['submit'] == "Remove") {
     if (passChecker($conn)==1){
       //  code for removal of the employee starts here
-      $to_be_deleted = $_COOKIE['emp_id'];
+      $to_be_deleted = $_COOKIE['id'];
       header("location:check.php");
       $remove_employee_query = "delete from employee where emp_id = '" . $to_be_deleted . "'";
       if (mysqli_query($conn, $remove_employee_query)) echo '<script>alert("Record deleted successfully.");window.location = history.back();</script>';
@@ -109,8 +109,8 @@ if (isset($_POST['submit']) && !empty($_POST['submit'])) {
     <ul class="list-unstyled">
       <li>
         <i class="fa-solid fa-house fa-fw"></i>
-        <?php if($_SESSION['email']!="root@dbms.com"){ ?><a href="admin_dashboard.php"> Dashboard</a> 
-        <?php } else ?><a href="superadmin_portal.php"> Dashboard</a>      </li>
+        <?php if($_SESSION['email']!="root@dbms.com"){ echo '<a href="admin_dashboard.php"> Dashboard</a>' ;
+         } else echo '<a href="superadmin_portal.php"> Dashboard</a>';?>   </li>
       <li class="highlight">
         <i class="fa-solid fa-users fa-fw"></i><a href="employee_details.php"> Employee Details</a>
       </li>
@@ -165,9 +165,10 @@ if (isset($_POST['submit']) && !empty($_POST['submit'])) {
                     <script>
                         var id=<?php echo  $employees['emp_id'];?>;
                         var name= <?php $employees['fname']; ?>;
-                        <?php echo  "<script>document.write(id);</script>";?>
-                      </script>
-                       <form method="post"><input class="btn btn-danger" type=submit name="submit" value="Remove" onclick='confirmRemove(name,id)'></input></form>
+                        console.log(id);
+                        alert(id);
+                        </script>
+                       <form method="post"><input class="btn btn-danger" type=submit name="submit" value="Remove" onclick='confirmRemove("Alberto",27)'></input></form>
                     </td>
                   </tr>
                 <?php } ?>

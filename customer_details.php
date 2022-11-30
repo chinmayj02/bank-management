@@ -26,7 +26,7 @@ if (isset($_POST['submit']) && !empty($_POST['submit'])) {
     $submit_pass = mysqli_query($conn, $fetch_pass) or die(mysqli_error($conn));
     $row_pass = mysqli_fetch_array($submit_pass);
     if($row_pass['password']==$pass_to_check){
-      header("location:profile.html");
+      header("location:profile.php");
     }
     else 	echo '<script>alert("Incorrect Password, Please try again");window.location = history.back();</script>';
 }

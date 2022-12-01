@@ -10,12 +10,18 @@
 .card{
     margin-top: 20px;
     margin-left: -70px;
+    background-color: #313348;;
+
 }
 #name{
     padding-left: 40px;
+    color: white;
 }
 .btn-danger{
     margin-left: 100px;
+}
+.card-body{
+    background-color: #313348;;
 }
 
 /* MEDIA QUERIES */
@@ -23,9 +29,13 @@
     .card{
         margin-top: 20px;
         margin-left: 5px;
+        background-color: #313348;;
+
     }
     #name{
         margin-left: 150px;
+        color: white;
+
     }
     .rounded-circle{
         margin-left:75px ;

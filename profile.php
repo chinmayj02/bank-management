@@ -4,13 +4,20 @@ if (!isset($_SESSION['email'])) header("location:index.php");?>
 <html>
     <head>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <link href="css/styles.css" rel="stylesheet">
     <link rel="stylesheet" href="css/profile.css">
+
+
 </head>
 
 <body>
-    <div class="NAVBAR">
-        <a href="index.php">DBMS BANK</a>
+<nav class="navbar position-sticky top-0 left-0 navbar-expand-md">
+    <div class="container-fluid mx-2">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="admin_dashboard.php">DBMS<span class="main-color">Bank</span></a>
+      </div>
     </div>
+  </nav>
 
     <div class="container">
         <div class="row">

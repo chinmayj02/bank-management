@@ -63,7 +63,7 @@
 			<div class="user_card">
 				<div class="d-flex justify-content-center">
 					<div class="brand_logo_container">
-						<img src="#" class="brand_logo" alt="Logo">
+						<img src="https://www.pngitem.com/pimgs/m/531-5313435_bank-png-free-download-vector-bank-logo-png.png" class="brand_logo" alt="Logo">
 					</div>
 				</div>
 				<div class="d-flex justify-content-center form_container">
@@ -95,11 +95,6 @@
 
 					</form>
 				</div>
-		   <!-- <div class="mt-4"> 
-					<div class="d-flex justify-content-center links">
-						<a href="#">Forgot your password?</a>
-					</div>
-                </div> -->
 			</div>
 		</div>
 	</div>

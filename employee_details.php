@@ -47,8 +47,7 @@ if (isset($_POST['submit']) && !empty($_POST['submit'])) {
   } else if ($_POST['submit'] == "Remove") {
     if (passChecker($conn) == 1) {
       //  code for removal of the employee starts here
-      $to_be_deleted = $_COOKIE['id'];
-      header("location:check.php");
+      $to_be_deleted = 21;
       $remove_employee_query = "delete from employee where emp_id = '" . $to_be_deleted . "'";
       if (mysqli_query($conn, $remove_employee_query))
         echo '<script>alert("Record deleted successfully.");window.location = history.back();</script>';
@@ -102,7 +101,7 @@ if (isset($_POST['submit']) && !empty($_POST['submit'])) {
       alert("Employee " + name + " [Employee ID:" + id + "] will be notified about the removal of his/her record from the database.");
       document.cookie = "name=" + name;
       documen.cookie = "id=" + id;
-      checkPass(id);
+      // checkPass(id);
     }
   </script>
 </head>
@@ -120,7 +119,7 @@ if (isset($_POST['submit']) && !empty($_POST['submit'])) {
     <div class="sidebar-header d-flex justify-content-center align-items-center px-3 py-4">
       <div class="ms-2">
         <h5 class="fs-6 mb-0">
-          <a class="text-decoration-none" href="#">
+          <a class="text-decoration-none" href="profile.php">
             <?php echo $short_name; ?>
           </a>
         </h5>
@@ -211,7 +210,7 @@ if (isset($_POST['submit']) && !empty($_POST['submit'])) {
                       alert(id);
                     </script>
                     <form method="post"><input class="btn btn-danger" type=submit name="submit" value="Remove"
-                        onclick='confirmRemove("Alberto",27)'></input></form>
+                        onclick='confirmRemove("Wyatt",21)'></input></form>
                   </td>
                 </tr>
                 <?php } ?>

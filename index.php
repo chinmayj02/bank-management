@@ -9,7 +9,7 @@
 		$email = mysqli_real_escape_string($conn,$_POST['email']);
 		$password = mysqli_real_escape_string($conn,$_POST['password']);
 		$safe_pass = md5($password);
-		$fetch = "select e.emp_id from employee e join credentials c on e.emp_id=c.emp_id where e.email = '$email'";
+		$fetch = "select e.emp_id from employee e join emp_credentials c on e.emp_id=c.emp_id where e.email = '$email'";
 		$check = mysqli_query($conn,$fetch) or die(mysqli_error($conn));
 		if(mysqli_num_rows($check) == 0)
 		{
@@ -17,7 +17,7 @@
 		}
 		else
 		{
-			$fetch = "select e.emp_id from employee e join credentials c on e.emp_id=c.emp_id where e.email = '$email' and c.password='$safe_pass'";
+			$fetch = "select e.emp_id from employee e join emp_credentials c on e.emp_id=c.emp_id where e.email = '$email' and c.password='$safe_pass'";
 			$check = mysqli_query($conn,$fetch) or die(mysqli_error($conn));
 			if(mysqli_num_rows($check) == 0)
 			{
@@ -65,6 +65,11 @@
                 <i data-show="show-side-navigation1" class="show-side-btn fa-fw text-white "></i>
                 <a class="navbar-brand" href="admin_dashboard.php">DBMS<span class="main-color">Bank</span></a>
             </div>
+        </div>
+		<div class="container-fluid" style="margin-right: -1060px;">
+            <div class="navbar-header">
+				<a type="submit" href="cust_login.php" class="btn login_btn">Customer Login</a>
+			</div>
         </div>
     </nav>
 	<div class="container h-100">

@@ -22,7 +22,7 @@ $submit = mysqli_query($conn, $fetch) or die(mysqli_error($conn));
 if (isset($_POST['submit']) && !empty($_POST['submit'])) {
   if(isset($_COOKIE['pass'])){
     $pass_to_check= md5($_COOKIE['pass']);
-    $fetch_pass = "select password from credentials where emp_id = '{$_SESSION['emp_id']}'";
+    $fetch_pass = "select password from emp_credentials where emp_id = '{$_SESSION['emp_id']}'";
     $submit_pass = mysqli_query($conn, $fetch_pass) or die(mysqli_error($conn));
     $row_pass = mysqli_fetch_array($submit_pass);
     if($row_pass['password']==$pass_to_check){

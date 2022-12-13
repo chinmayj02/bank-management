@@ -47,7 +47,7 @@ if (isset($_POST['submit']) && !empty($_POST['submit'])) {
   } else if ($_POST['submit'] == "Remove") {
     if (passChecker($conn) == 1) {
       //  code for removal of the employee starts here
-      $to_be_deleted = 21;
+      $to_be_deleted = 35;
       $remove_employee_query = "delete from employee where emp_id = '" . $to_be_deleted . "'";
       if (mysqli_query($conn, $remove_employee_query))
         echo '<script>alert("Record deleted successfully.");window.location = history.back();</script>';
@@ -210,7 +210,7 @@ if (isset($_POST['submit']) && !empty($_POST['submit'])) {
                       alert(id);
                     </script>
                     <form method="post"><input class="btn btn-danger" type=submit name="submit" value="Remove"
-                        onclick='confirmRemove("Wyatt",21)'></input></form>
+                        onclick='confirmRemove("Elliott",35)'></input></form>
                   </td>
                 </tr>
                 <?php } ?>

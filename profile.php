@@ -5,7 +5,7 @@ if($_SESSION['employee_details']==1 && $_SESSION['customer_details']==0){
   $fetch = "select * from employee where emp_id = 1";
 }
 else{
-  $fetch = "select * from customer where cin = '{$_COOKIE['id']}'";
+  $fetch = "select * from customer where cin = 101";
 
 }
 $submit = mysqli_query($conn, $fetch) or die(mysqli_error($conn));

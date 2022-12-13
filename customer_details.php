@@ -54,6 +54,9 @@ if (isset($_POST['submit']) && !empty($_POST['submit'])) {
       var pass = prompt("Confirm your password:");
       if(pass==null||pass=="") {document.cookie = "pass= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";return;}
       document.cookie = "pass="+pass;
+      <?php $_SESSION['employee_details'] = 0;
+      $_SESSION['customer_details'] = 1;
+       ?>
     }
 </script>
 </head>

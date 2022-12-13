@@ -129,20 +129,20 @@ if (isset($_POST['submit']) && !empty($_POST['submit'])) {
 
     <ul class="list-unstyled">
       <li>
-        <i class="fa-solid fa-house fa-fw"></i>
+        
         <?php if ($_SESSION['email'] != "root@dbms.com") {
-          echo '<a href="admin_dashboard.php"> Dashboard</a>';
+          echo '<a href="admin_dashboard.php"><i class="fa-solid fa-house fa-fw"></i> Dashboard</a>';
         } else
-          echo '<a href="superadmin_portal.php"> Dashboard</a>'; ?>
+          echo '<a href="superadmin_portal.php"><i class="fa-solid fa-house fa-fw"></i> Dashboard</a>'; ?>
       </li>
       <li>
-        <i class="fa-solid fa-users fa-fw"></i><a href="employee_details.php"> Employee Details</a>
+        <a href="employee_details.php"><i class="fa-solid fa-users fa-fw"></i> Employee Details</a>
       </li>
       <li>
-        <i class="fa-solid fa-users-rectangle fa-fw"></i><a href="customer_details.php"> Customer Details</a>
+        <a href="customer_details.php"><i class="fa-solid fa-users-rectangle fa-fw"></i> Customer Details</a>
       </li>
       <li>
-        <i class="fa-solid fa-right-from-bracket fa-fw"></i><a href="logout.php"> Log Out</a>
+        <a href="logout.php"><i class="fa-solid fa-right-from-bracket fa-fw"></i> Log Out</a>
       </li>
     </ul>
 

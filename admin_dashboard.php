@@ -15,6 +15,7 @@ $short_name = $row['fname'] . " " . $row['lname'];
 $name = $row['fname'] . " " . $row['mname'] . " " . $row['lname'];
 $row1 = mysqli_fetch_array($submit1);
 $ifsc = $row1['ifsc'];
+$_SESSION['ifsc'] = $ifsc;
 $fetch_all_branches = "select * from employee e join (select ifsc,manager_id from branch where manager_id <> '{$_SESSION['emp_id']}' and manager_id<>0) b on e.emp_id=b.manager_id order by rand() limit 6";
 $submit_list_of_managers = mysqli_query($conn, $fetch_all_branches) or die(mysqli_error($conn));
 // number of branches

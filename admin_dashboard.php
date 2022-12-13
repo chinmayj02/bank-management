@@ -15,7 +15,7 @@ $short_name = $row['fname'] . " " . $row['lname'];
 $name = $row['fname'] . " " . $row['mname'] . " " . $row['lname'];
 $row1 = mysqli_fetch_array($submit1);
 $ifsc = $row1['ifsc'];
-$fetch_all_branches = "select * from employee e join (select ifsc,manager_id from branch where manager_id <> '{$_SESSION['emp_id']}') b on e.emp_id=b.manager_id order by rand() limit 6";
+$fetch_all_branches = "select * from employee e join (select ifsc,manager_id from branch where manager_id <> '{$_SESSION['emp_id']}' and manager_id<>0) b on e.emp_id=b.manager_id order by rand() limit 6";
 $submit_list_of_managers = mysqli_query($conn, $fetch_all_branches) or die(mysqli_error($conn));
 // number of branches
 $number_of_branches = "select * from count_branches";
@@ -177,7 +177,7 @@ setcookie("amount_dec",$amount_dec);
         <div class="sidebar-header d-flex justify-content-center align-items-center px-3 py-4">
             <div class="ms-2">
                 <h5 class="fs-6 mb-0">
-                    <a class="text-decoration-none" href="#"><?php echo $short_name; ?></a>
+                    <a class="text-decoration-none" href="profile.php"><?php echo $short_name; ?></a>
                 </h5>
                 <p class="mt-1 mb-0"><?php echo $email; ?></p>
             </div>
@@ -205,7 +205,7 @@ setcookie("amount_dec",$amount_dec);
                 <div class="content rounded-3 p-3">
                     <h1 class="fs-3">Hello <?php echo $name; ?></h1>
                     <p class="mb-0">Welcome to your awesome dashboard!</p>
-                    <p class="mb-0">IFSC <?php echo $ifsc; ?></p>
+                    <p class="mb-0">IFSC <a href="mybranch.php" style="text-decoration: none;"><?php echo $ifsc; ?></a></p>
                 </div>
             </div>
 
@@ -273,8 +273,8 @@ setcookie("amount_dec",$amount_dec);
                             <div class="box">
                                 <div class="admin d-flex align-items-center rounded-2 p-3 mb-4">
                                     <div class="ms-3">
-                                        <h3 class="fs-5 mb-1"><?php echo $row_of_managers['fname']; ?></h3>
-                                        <p class="mb-0">Manager at branch <?php echo $row_of_managers['ifsc']; ?></p>
+                                        <a href="profile.php" style="text-decoration: none;"><h3 class="fs-5 mb-1"><?php echo $row_of_managers['fname']; ?></h3></a>
+                                        <p class="mb-0">Manager at branch <a href="mybranch.php" style="text-decoration: none;"><?php echo $row_of_managers['ifsc']; ?></a></p>
                                     </div>
                                 </div>
                             </div>
@@ -282,47 +282,13 @@ setcookie("amount_dec",$amount_dec);
                     <?php } ?>
                     <div class="col-md-12">
                         <div class="box">
-                            <!-- <div class="admin d-flex align-items-center rounded-2 p-3 mb-4"> -->
                             <div align="center">
-                                <button href="#" class="buttonClass">View All Fellow Managers</button>
+                                <a type=submit href="managers.php" class="btn buttonClass" style="color: white;">View All Managers</a>
                             </div>
-                            <!-- </div> -->
                         </div>
                     </div>
                 </div>
             </section>
-
-            <!-- <section class="statis mt-4 text-center">
-                <div class="row">
-                    <div class="col-md-6 col-lg-3 mb-4 mb-lg-0">
-                        <div class="box bg-primary p-3">
-                            <i class="uil-eye"></i>
-                            <h3>9999</h3>
-                            <p class="lead">New Customers</p>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-lg-3 mb-4 mb-lg-0">
-                        <div class="box bg-danger p-3">
-                            <i class="uil-user"></i>
-                            <h3>9999</h3>
-                            <p class="lead">Total customers</p>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-lg-3 mb-4 mb-md-0">
-                        <div class="box bg-warning p-3">
-                            <i class="uil-shopping-cart"></i>
-                            <h3>9999</h3>
-                            <p class="lead">Loans Sanctioned</p>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-lg-3">
-                        <div class="box bg-success p-3">
-                            <i class="uil-feedback"></i>
-                            <h3>9999</h3>
-                            <p class="lead">Transactions</p>
-                        </div>
-                    </div>
-                </div> -->
         </div>
     </section>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.bundle.js'></script>

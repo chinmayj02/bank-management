@@ -55,9 +55,18 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<link rel="stylesheet" href="css/styles.css">
 </head>
 
-<body>
+<body style="background-color:  #2a2b3d;">
+<nav class="navbar position-sticky top-0 left-0 navbar-expand-md">
+        <div class="container-fluid mx-2">
+            <div class="navbar-header">
+                <i data-show="show-side-navigation1" class="show-side-btn fa-fw text-white "></i>
+                <a class="navbar-brand" href="admin_dashboard.php">DBMS<span class="main-color">Bank</span></a>
+            </div>
+        </div>
+    </nav>
 	<div class="container h-100">
 		<div class="d-flex justify-content-center h-100">
 			<div class="user_card">
@@ -72,14 +81,14 @@
 							<div class="input-group-append">
 								<span class="input-group-text"><i class="fas fa-user"></i></span>
 							</div>
-							<input type="email" name="email" class="form-control input_user" value="" placeholder="Email" required>
+							<input type="email" name="email" class="form-control input_user" value="" placeholder="Email" required  readonly onfocus="this.removeAttribute('readonly');">
 						</div>
 
 						<div class="input-group mb-2">
 							<div class="input-group-append">
 								<span class="input-group-text"><i class="fas fa-key"></i></span>
 							</div>
-							<input type="password" name="password" class="form-control input_pass" value="" placeholder="Password" required>
+							<input type="password" name="password" class="form-control input_pass" value="" placeholder="Password" required  readonly onfocus="this.removeAttribute('readonly');">
 						</div>
 
 						<div class="form-group">

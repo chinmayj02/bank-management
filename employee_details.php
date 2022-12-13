@@ -85,20 +85,24 @@ if (isset($_POST['submit']) && !empty($_POST['submit'])) {
     integrity="sha512-ycYlLqHTXPRocKFV8t0C5fUwTvuiv+4m5kHWTN5juUkOiGEJIqlqNtPCwhfKaFlwH+dfQdKRwhOCnI2zds/dmA=="
     crossorigin="anonymous" referrerpolicy="no-referrer" />
   <script>
-    function checkPass() {
+    function checkPass(id) {
       document.cookie = "pass= ; expires = Thu, 01 Jan 1970 00:00:00 GMT"
       var pass = prompt("Confirm your password:");
       if (pass == null || pass == "" || pass == " ") {
         return;
       }
       document.cookie = "pass=" + pass;
+      documen.cookie = "id=" + id;
+      <?php $_SESSION['employee_details'] = 1;
+      $_SESSION['customer_details'] = 0;
+       ?>
     }
 
     function confirmRemove(name, id) {
       alert("Employee " + name + " [Employee ID:" + id + "] will be notified about the removal of his/her record from the database.");
       document.cookie = "name=" + name;
       documen.cookie = "id=" + id;
-      checkPass();
+      checkPass(id);
     }
   </script>
 </head>
@@ -197,7 +201,7 @@ if (isset($_POST['submit']) && !empty($_POST['submit'])) {
                   </td>
                   <td align="center">
                     <form method="post"><input class="btn btn-success" type=submit name="submit" value="More"
-                        onclick="checkPass()"></input></form>
+                        onclick="checkPass(<?php echo $employees['emp_id']; ?>)"></input></form>
                   </td>
                   <td align="center">
                     <script>

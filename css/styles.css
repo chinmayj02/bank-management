@@ -43,7 +43,8 @@
   }
   
   .buttonClass:hover {
-	background: rgba(42, 43, 61, 1)
+	background: rgba(42, 43, 61, 1);
+	color: white;
   }
 				
 body {

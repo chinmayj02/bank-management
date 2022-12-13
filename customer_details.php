@@ -84,8 +84,10 @@ if (isset($_POST['submit']) && !empty($_POST['submit'])) {
     <ul class="list-unstyled">
       <li>
         <i class="fa-solid fa-house fa-fw"></i>
-        <?php if($_SESSION['email']!="root@dbms.com"){ ?><a href="admin_dashboard.php"> Dashboard</a> 
-        <?php } else ?><a href="superadmin_portal.php"> Dashboard</a>
+        <?php if ($_SESSION['email'] != "root@dbms.com") {
+          echo '<a href="admin_dashboard.php"> Dashboard</a>';
+        } else
+          echo '<a href="superadmin_portal.php"> Dashboard</a>'; ?>
       </li>
       <li>
         <i class="fa-solid fa-users fa-fw"></i><a href="employee_details.php"> Employee Details</a>

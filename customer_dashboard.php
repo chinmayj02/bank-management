@@ -122,6 +122,9 @@ $debit = mysqli_fetch_array($submit5);
                 <a href="customer_details.php"><i class="fa-sharp fa-solid fa-file-invoice fa-fw"></i> Account Details</a>
             </li> -->
             <li>
+                <a href="fundtransfer.php"><i class="fa-solid fa-arrow-up-from-bracket fa-fw"></i> Transfer</a>
+            </li>
+            <li>
                 <a href="customer_details.php"><i class="fa-solid fa-money-bill-transfer fa-fw"></i> Transactions</a>
             </li>
             <li>

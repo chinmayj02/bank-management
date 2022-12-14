@@ -11,6 +11,64 @@ if (mysqli_num_rows($submit) == 0) {
 $row = mysqli_fetch_array($submit);
 $short_name = $row['fname'] . " " . $row['lname'];
 $name = $row['fname'] . " " . $row['mname'] . " " . $row['lname'];
+
+
+
+$fetch1 = "select total_balance from total_balance where cin = '{$_SESSION['cin']}'";
+$submit1 = mysqli_query($conn, $fetch1) or die(mysqli_error($conn));
+$row1 = mysqli_fetch_array($submit1);
+// $total_balance = moneyFormatIndia($row1['total_balance']);
+$total_balance =round($row1['total_balance'],2);
+
+$fetch2 = "select balance from account_details join account on account.acc_no=account_details.acc_no where cin = '{$_SESSION['cin']}' and acc_type='SAVINGS'";
+$submit2 = mysqli_query($conn, $fetch2) or die(mysqli_error($conn));
+$row2 = mysqli_fetch_array($submit2);
+$savings_balance = round($row2['balance'],2);
+$fetch3 = "select balance from account_details join account on account.acc_no=account_details.acc_no where cin = '{$_SESSION['cin']}' and acc_type='CURRENT'";
+$submit3 = mysqli_query($conn, $fetch3) or die(mysqli_error($conn));
+$row3 = mysqli_fetch_array($submit3);
+$current_balance = round($row3['balance'],2);
+
+$fetch4 = "select * from 
+customer join account on customer.cin=account.cin
+join card on account.acc_no=card.acc_no 
+join card_details on card.card_no=card_details.card_no
+where card_details.card_type='CREDIT' and customer.cin='{$_SESSION['cin']}'";
+
+$submit4 = mysqli_query($conn, $fetch4) or die(mysqli_error($conn));
+$credit = mysqli_fetch_array($submit4);
+
+$fetch5 = "select * from 
+customer join account on customer.cin=account.cin
+join card on account.acc_no=card.acc_no 
+join card_details on card.card_no=card_details.card_no
+where card_details.card_type='DEBIT' and customer.cin='{$_SESSION['cin']}'";
+
+$submit5 = mysqli_query($conn, $fetch5) or die(mysqli_error($conn));
+$debit = mysqli_fetch_array($submit5);
+
+    // function moneyFormatIndia($num) {
+    //     $explrestunits = "" ;
+    //     if(strlen($num)>3) {
+    //         $lastthree = substr($num, strlen($num)-3, strlen($num));
+    //         $restunits = substr($num, 0, strlen($num)-3); // extracts the last three digits
+    //         $restunits = (strlen($restunits)%2 == 1)?"0".$restunits:$restunits; // explodes the remaining digits in 2's formats, adds a zero in the beginning to maintain the 2's grouping.
+    //         $expunit = str_split($restunits, 2);
+    //         for($i=0; $i<sizeof($expunit); $i++) {
+    //             // creates each of the 2's group and adds a comma to the end
+    //             if($i==0) {
+    //                 $explrestunits .= (int)$expunit[$i].","; // if is first value , convert into integer
+    //             } else {
+    //                 $explrestunits .= $expunit[$i].",";
+    //             }
+    //         }
+    //         $thecash = $explrestunits.$lastthree;
+    //     } else {
+    //         $thecash = $num;
+    //     }
+    //     return $thecash; // writes the final format where $currency is the currency symbol.
+// }
+
 ?>
 
 <html>
@@ -21,6 +79,8 @@ $name = $row['fname'] . " " . $row['mname'] . " " . $row['lname'];
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
         integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <link href="css/cust_dash.css" rel="stylesheet">
+
     <link href="css/styles.css" rel="stylesheet">
 
     <title>DBMS Bank</title>
@@ -85,85 +145,89 @@ $name = $row['fname'] . " " . $row['mname'] . " " . $row['lname'];
             </div>
         </div>
 
-        <section class="admins mt-4">
-            <div class="row">
-                <!-- savings -->
-                <div class="col-md-6">
-                    <div class="box">
-                        <div class="admin d-flex align-items-center rounded-2 p-3 mb-4">
-                            <div class="ms-3">
-                            <h2 class="fs-5 mb-1"> SAVINGS ACCOUNT</h2> 
-                            <?php $fetch = "(select * from account where acc_type='SAVINGS') a join (select cin from customer where cin='{$_SESSION['cin']}') c on c.cin = a.cin";
-                                $submit = mysqli_query($conn, $fetch) or die(mysqli_error($conn));
-                                if (mysqli_num_rows($submit) == 0) {?>
-                                    <h3 class="fs-5 mb-1"> N/A</h3>                                   
-                              <?php  } else {
-                                $row = mysqli_fetch_array($submit); ?>
-
-                                <h3 class="fs-5 mb-1">Account Number:<?php echo $row['acc_no']?> </h3> 
-
-                           <?php }
-                                ?>
-                            </div>
+        <div class="main-skills">
+                <div class="card">
+                    <i class="fa-solid fa-equals"></i>
+                        <h3>Total Balance</h3>
+                        <p><?php echo $total_balance; ?><span><i class="fa-solid fa-indian-rupee-sign"></i></span></p>
+                        <button>Details</button>
+                    </i>
+                </div>
+                <div class="card">
+                    <i class="fa-regular fa-circle-user"></i>
+                        <h3>S/B Account</h3>
+                        <p><?php echo $savings_balance; ?><span><i class="fa-solid fa-indian-rupee-sign"></i></span></p>
+                        <button>Details</button>
+                    </i>
+                </div>
+                <div class="card">
+                    <i class="fa-regular fa-circle-user"></i>
+                        <h3>Current Account</h3>
+                        <p><?php echo $current_balance; ?><span><i class="fa-solid fa-indian-rupee-sign"></i></span></p>
+                        <button>Details</button>
+                    </i>
+                </div>
+               
+            </div>
+            <div class="customer-cards">
+                <div class="card-1">
+                <div class="CARD">
+                    <div class="top">
+                        <h1><i>visa</i></h1>
+                        <h2>Credit Card</h2>
+                    </div>
+                    <div class="mid">
+                        <h2>Card Number</h2>
+                        <div class="card-number">
+                            <span><?php echo $credit['card_no'];?></span>
+                        </div>
+                    </div>
+                    <div class="bottom">
+                        <div class="card-holder">
+                            <h2>Card Holder</h2>
+                            <span><?php echo $name;?></span>
+                        </div>
+                        <div class="express">
+                            <h2>expires</h2>
+                            <?php $expiry=strtotime($credit['exp_date']);
+                                    $month=date("m",$expiry);
+                                    $year=date("Y",$expiry); ?>
+                            <span><?php echo $month ?></span>/
+                            <span><?php echo $year ?></span>
                         </div>
                     </div>
                 </div>
-                <!-- current -->
-                <div class="col-md-6">
-                    <div class="box">
-                        <div class="admin d-flex align-items-center rounded-2 p-3 mb-4">
-                            <div class="ms-3">
+                </div>
+                <div class="card-2">
+                    <div class="CARD">
+                        <div class="top">
+                            <h1><i>visa</i></h1>
+                            <h2>Debit Card</h2>
+                        </div>
+                        <div class="mid">
+                            <h2>Card Number</h2>
+                            <div class="card-number">
+                                <span><?php echo $debit['card_no'];?></span>
                                 
+                            </div>
+                        </div>
+                        <div class="bottom">
+                            <div class="card-holder">
+                                <h2>Card Holder</h2>
+                                <span><?php echo $name;?></span>
+                            </div>
+                            <div class="express">
+                                <h2>expires</h2>
+                                <?php $expiry=strtotime($debit['exp_date']);
+                                    $month=date("m",$expiry);
+                                    $year=date("Y",$expiry); ?>
+                            <span><?php echo $month ?></span>/
+                            <span><?php echo $year ?></span>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <!-- salary -->
-                <div class="col-md-6">
-                    <div class="box">
-                        <div class="admin d-flex align-items-center rounded-2 p-3 mb-4">
-                            <div class="ms-3">
-                                
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- RD -->
-                <div class="col-md-6">
-                    <div class="box">
-                        <div class="admin d-flex align-items-center rounded-2 p-3 mb-4">
-                            <div class="ms-3">
-                                
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <!-- FD -->
-                <div class="col-md-6">
-                    <div class="box">
-                        <div class="admin d-flex align-items-center rounded-2 p-3 mb-4">
-                            <div class="ms-3">
-                                
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- NRI -->
-                <div class="col-md-6">
-                    <div class="box">
-                        <div class="admin d-flex align-items-center rounded-2 p-3 mb-4">
-                            <div class="ms-3">
-                                
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
     </section>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.bundle.js'></script>
     <script src="https://code.jquery.com/jquery-3.6.1.min.js"

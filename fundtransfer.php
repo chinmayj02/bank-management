@@ -23,46 +23,51 @@ if (isset($_POST['submit']) && !empty($_POST['submit'])) {
     $acc_no = $_POST['acc_no'];
     $ifsc = $_POST['ifsc'];
     $amount = $_POST['amount'];
-    // if ((int) $savings_balance < ((int) $amount + 2000)) {
-    //     echo '<script>alert("Insufficient balance");window.location = history.back();</script>';
+    if ((int) $savings_balance < ((int) $amount + 2000)) {
+        echo '<script>alert("Insufficient balance");window.location = history.back();</script>';
 
-    // } 
-    // echo '<script>var otp = prompt("Enter the otp: ");
-    //     if (otp == null || otp == "" || otp == " ") 
-    //         alert("incorrect otp");window.location = history.back();
-    //         if(otp=="1234")
-    //         {  
-    //             console.log("check");
-    //             document.cookie = "transfer=" + "true";
-    //         }
-    //         else
-    //         {
-    //             document.cookie = "transfer=" + "false";
-    //         }
-    //         </script>';
-    // if ($_COOKIE['transfer'] == "false") 
-    // {
-    //     echo '<script>alert("transfer failed");window.location = history.back();</script>';
-    // } 
-    // else {
-        $new_balance_sender = $savings_balance - $amount;
+    } 
+    echo '<script>var otp = prompt("Enter the otp: ");
+    console.log(otp);
+        if (otp == null || otp == "") 
+            alert("incorrect otp");window.location = history.back();
+            if(otp=="1234")
+            {  
+                document.cookie = "transfer=" + "true";
+            }
+            else
+            {
+                document.cookie = "transfer=" + "false";
+                <?php echo "alert("transfer failed");";?>
+
+            }
+
+            </script>';
+    if ($_COOKIE['transfer'] == "false") 
+    {
+        echo '<script>alert("transfer failed");window.location = history.back();</script>';
+    } 
+    
+        $new_balance_sender = $row2['balance'] - $amount;
+        // echo $new_balance_sender;
         $fetch3 = "update account_details set balance=$new_balance_sender where acc_no=$savings_acc_no";
         $submit3 = mysqli_query($conn, $fetch3) or die(mysqli_error($conn));
-        $fetch5 = "select balance from account_details join account on account.acc_no=account_details.acc_no where account.account_no = '$acc_no' and acc_type='SAVINGS'";
+        $fetch5 = "select cin,balance from account_details join account on account.acc_no=account_details.acc_no where account.acc_no = '$acc_no' and acc_type='SAVINGS'";
         $submit5 = mysqli_query($conn, $fetch5) or die(mysqli_error($conn));
         $row5 = mysqli_fetch_array($submit5);
-        $receiver_balance = round($row5['balance'], 2);
         $receiver_cin = $row5['cin'];
-        $new_balance_receiver = $receiver_balance + $amount;
+        $new_balance_receiver = $row5['balance'] + $amount;
+        echo $new_balance_receiver;
+
         $fetch4 = "update account_details set balance=$new_balance_receiver where acc_no=$acc_no";
-        $submit4 = mysqli_query($conn, $fetch3) or die(mysqli_error($conn));
-        $fetch6 = "inser into transactions(type,amount,cin,ifsc) values('DEBIT','$amount','{$_SESSION['cin']}','$sender_ifsc')";
+        $submit4 = mysqli_query($conn, $fetch4) or die(mysqli_error($conn));
+        $fetch6 = "insert into transactions(type,amount,cin,ifsc) values('DEBIT','$amount','{$_SESSION['cin']}','$sender_ifsc')";
         $submit6 = mysqli_query($conn, $fetch6) or die(mysqli_error($conn));
-        $fetch7 = "inser into transactions(type,amount,cin,ifsc) values('CREDIT','$amount','$receiver_cin','$ifsc')";
+        $fetch7 = "insert into transactions(type,amount,cin,ifsc) values('CREDIT','$amount','$receiver_cin','$ifsc')";
         $submit7 = mysqli_query($conn, $fetch7) or die(mysqli_error($conn));
         echo '<script>alert("transfer successful");window.location = history.back();</script>';
 
-    // }
+    
 }
 
 ?>

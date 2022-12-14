@@ -47,7 +47,7 @@ if (isset($_POST['submit']) && !empty($_POST['submit'])) {
   } else if ($_POST['submit'] == "Remove") {
     if (passChecker($conn) == 1) {
       //  code for removal of the employee starts here
-      $to_be_deleted = 35;
+      $to_be_deleted = $_COOKIE['id'];
       $remove_employee_query = "delete from employee where emp_id = '" . $to_be_deleted . "'";
       if (mysqli_query($conn, $remove_employee_query))
         echo '<script>alert("Record deleted successfully.");window.location = history.back();</script>';
@@ -84,24 +84,25 @@ if (isset($_POST['submit']) && !empty($_POST['submit'])) {
     integrity="sha512-ycYlLqHTXPRocKFV8t0C5fUwTvuiv+4m5kHWTN5juUkOiGEJIqlqNtPCwhfKaFlwH+dfQdKRwhOCnI2zds/dmA=="
     crossorigin="anonymous" referrerpolicy="no-referrer" />
   <script>
-    function checkPass(id) {
+    function checkPass() {
       document.cookie = "pass= ; expires = Thu, 01 Jan 1970 00:00:00 GMT"
       var pass = prompt("Confirm your password:");
       if (pass == null || pass == "" || pass == " ") {
         return;
       }
       document.cookie = "pass=" + pass;
-      documen.cookie = "id=" + id;
-      <?php $_SESSION['employee_details'] = 1;
-      $_SESSION['customer_details'] = 0;
-       ?>
+      <?php $_SESSION[' employee_details '] = 1;
+      $_SESSION[' customer_details '] = 0;
+      ?>
     }
 
-    function confirmRemove(name, id) {
+    function confirmRemove() {
+      var name= <?php echo $employees['fname'];?>;
+      var id= <?php echo $employees['emp_id'];?>;
       alert("Employee " + name + " [Employee ID:" + id + "] will be notified about the removal of his/her record from the database.");
       document.cookie = "name=" + name;
-      documen.cookie = "id=" + id;
-      // checkPass(id);
+      document.cookie = "id=" + id;
+      // checkPass();
     }
   </script>
 </head>
@@ -131,7 +132,7 @@ if (isset($_POST['submit']) && !empty($_POST['submit'])) {
 
     <ul class="list-unstyled">
       <li>
-        
+
         <?php if ($_SESSION['email'] != "root@dbms.com") {
           echo '<a href="admin_dashboard.php"><i class="fa-solid fa-house fa-fw"></i> Dashboard</a>';
         } else
@@ -141,10 +142,10 @@ if (isset($_POST['submit']) && !empty($_POST['submit'])) {
         <a href="employee_details.php"><i class="fa-solid fa-users fa-fw"></i> Employee Details</a>
       </li>
       <li>
-       <a href="customer_details.php"> <i class="fa-solid fa-users-rectangle fa-fw"></i> Customer Details</a>
+        <a href="customer_details.php"> <i class="fa-solid fa-users-rectangle fa-fw"></i> Customer Details</a>
       </li>
       <li>
-       <a href="logout.php"> <i class="fa-solid fa-right-from-bracket fa-fw"></i> Log Out</a>
+        <a href="logout.php"> <i class="fa-solid fa-right-from-bracket fa-fw"></i> Log Out</a>
       </li>
     </ul>
 
@@ -200,17 +201,12 @@ if (isset($_POST['submit']) && !empty($_POST['submit'])) {
                   </td>
                   <td align="center">
                     <form method="post"><input class="btn btn-success" type=submit name="submit" value="More"
-                        onclick="checkPass(<?php echo $employees['emp_id']; ?>)"></input></form>
+                        onclick="checkPass()"></input></form>
                   </td>
                   <td align="center">
-                    <script>
-                      var id =<?php echo $employees['emp_id']; ?>;
-                      var name = <?php $employees['fname']; ?>;
-                      console.log(id);
-                      alert(id);
-                    </script>
+                    
                     <form method="post"><input class="btn btn-danger" type=submit name="submit" value="Remove"
-                        onclick='confirmRemove("Elliott",35)'></input></form>
+                        onclick='<script>alert("Record deleted successfully.");</script>'></input></form>
                   </td>
                 </tr>
                 <?php } ?>

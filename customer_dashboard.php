@@ -106,7 +106,7 @@ $debit = mysqli_fetch_array($submit5);
                     </a>
                 </h5>
                 <p class="mt-1 mb-0">
-                    <?php echo $email; ?>
+                    <?php //echo $email; ?>
                 </p>
             </div>
         </div>

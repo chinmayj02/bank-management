@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Dec 13, 2022 at 11:58 AM
+-- Generation Time: Dec 14, 2022 at 06:34 AM
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 8.1.6
 
@@ -68,7 +68,9 @@ INSERT INTO `account` (`acc_type`, `ifsc`, `cin`, `acc_no`) VALUES
 ('SAVINGS', 'DBMB0001164', 127, 123412367),
 ('SAVINGS', 'DBMB0001164', 128, 123412368),
 ('SAVINGS', 'DBMB0001164', 129, 123412369),
-('SAVINGS', 'DBMB0001164', 130, 123412370);
+('SAVINGS', 'DBMB0001164', 130, 123412370),
+('FD', 'DBMB0001164', 130, 123412377),
+('CURRENT', 'DBMB0001164', 130, 123412380);
 
 -- --------------------------------------------------------
 
@@ -116,7 +118,9 @@ INSERT INTO `account_details` (`acc_no`, `balance`, `acc_open_date`) VALUES
 (123412367, 804000, '2011-12-22'),
 (123412368, 808000, '2011-12-22'),
 (123412369, 812000, '2011-12-22'),
-(123412370, 816000, '2011-12-22');
+(123412370, 816000, '2011-12-22'),
+(123412377, 150000, '2022-12-08'),
+(123412380, 25300.2, '2022-12-04');
 
 -- --------------------------------------------------------
 
@@ -182,8 +186,16 @@ CREATE TABLE `branch_customers` (
 
 CREATE TABLE `card` (
   `acc_no` int(11) NOT NULL,
-  `card_no` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `card_no` varchar(16) CHARACTER SET utf8 NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `card`
+--
+
+INSERT INTO `card` (`acc_no`, `card_no`) VALUES
+(123412370, '4321123456788765'),
+(123412370, '4321123409095678');
 
 -- --------------------------------------------------------
 
@@ -192,13 +204,21 @@ CREATE TABLE `card` (
 --
 
 CREATE TABLE `card_details` (
-  `card_no` int(11) NOT NULL,
+  `card_no` varchar(16) NOT NULL,
   `card_type` enum('CREDIT','DEBIT') NOT NULL DEFAULT 'DEBIT',
   `issue_date` date NOT NULL,
   `exp_date` date NOT NULL,
   `pin` varchar(255) NOT NULL,
   `cvv` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `card_details`
+--
+
+INSERT INTO `card_details` (`card_no`, `card_type`, `issue_date`, `exp_date`, `pin`, `cvv`) VALUES
+('4321123409095678', 'DEBIT', '2021-04-02', '2026-04-09', '81dc9bdb52d04dc20036dbd8313ed055', '202cb962ac59075b964b07152d234b70'),
+('4321123456788765', 'CREDIT', '2022-12-08', '2027-12-08', '81dc9bdb52d04dc20036dbd8313ed055', '202cb962ac59075b964b07152d234b70');
 
 -- --------------------------------------------------------
 
@@ -726,6 +746,17 @@ CREATE TABLE `nominee` (
 -- --------------------------------------------------------
 
 --
+-- Stand-in structure for view `total_balance`
+-- (See below for the actual view)
+--
+CREATE TABLE `total_balance` (
+`cin` int(11)
+,`total_balance` double
+);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `transactions`
 --
 
@@ -1017,6 +1048,15 @@ DROP TABLE IF EXISTS `count_employee`;
 
 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `count_employee`  AS SELECT count(`employee`.`emp_id`) AS `count` FROM `employee``employee`  ;
 
+-- --------------------------------------------------------
+
+--
+-- Structure for view `total_balance`
+--
+DROP TABLE IF EXISTS `total_balance`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `total_balance`  AS SELECT `account`.`cin` AS `cin`, sum(`account_details`.`balance`) AS `total_balance` FROM (`account` join `account_details` on(`account`.`acc_no` = `account_details`.`acc_no`)) GROUP BY `account`.`cin``cin`  ;
+
 --
 -- Indexes for dumped tables
 --
@@ -1176,7 +1216,7 @@ ALTER TABLE `branch`
 -- Constraints for table `card`
 --
 ALTER TABLE `card`
-  ADD CONSTRAINT `card_ibfk_1` FOREIGN KEY (`acc_no`) REFERENCES `account` (`acc_no`),
+  ADD CONSTRAINT `card_ibfk_1` FOREIGN KEY (`acc_no`) REFERENCES `account_details` (`acc_no`),
   ADD CONSTRAINT `card_ibfk_2` FOREIGN KEY (`card_no`) REFERENCES `card_details` (`card_no`);
 
 --
